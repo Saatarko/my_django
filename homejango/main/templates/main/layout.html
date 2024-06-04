@@ -1,5 +1,5 @@
 {% load static %}
-<!DOCTYPE html
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,16 +8,25 @@
     <link rel="stylesheet" href="{% static 'main/css/main.css' %}">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
     <title> {% block title %} {% endblock %}</title>
+
 </head>
 <body>
+
     <aside>
         <img src="{% static 'main/img/logo.jpg' %}" alt="">
-        <span class="logo"> Логотипчик </span>
         <h3>Навигация</h3>
         <ul>
-            <a href=""><li><i class="fa-solid fa-house-user"></i>Главная</li></a>
-            <a href=""><li><i class="fa-regular fa-address-card"></i></i>О нас</li></a>
-            <a href=""><li><i class="fa-solid fa-basket-shopping"></i>Корзина</li></a>
+            <a href="{% url 'home' %}"><li><i class="fa-solid fa-house-user"></i> Главная</li></a>
+            <li onclick="toggleServices(this)"><i class="fa-solid fa-shield-cat"></i></i> Наши услуги
+                <ul >
+                <a href="{% url 'procedure' %}"><li>Процедуры</li></a>
+                <a href=""><li>Операции</li></a>
+                 <a href=""><li>Услуга 3</li></a>
+            </ul>
+            </li>
+            <a href="{% url 'about' %}"><li><i class="fa-regular fa-address-card"></i></i> О нас</li></a>
+             <a href="{% url 'contacts' %}"><li><i class="fa-regular fa-address-card"></i></i> Контакты</li></a>
+
 
 
         </ul>
@@ -25,6 +34,7 @@
     </aside>
 
     <main>
+
      {% block content %} {% endblock %}
 
     </main>
@@ -34,3 +44,9 @@
 </body>
 </html>
 
+<script>
+    function toggleServices(liElement) {
+        const servicesList = liElement.querySelector("ul");
+        servicesList.style.display = servicesList.style.display === "none" ? "block" : "none";
+    }
+</script>
