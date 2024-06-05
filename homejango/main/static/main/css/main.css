@@ -1,72 +1,162 @@
 
-aside {
+
+
+#navigation-panel {
     float: left;
-    width: 15%;
-    padding: 2,5%;
+    width: 17%;
+    padding: 1.0%;
     height: 100vh;
     color: #0F0F0F;
     border-right: 5px solid #4d4d4d
 
-
 }
 
-
-aside {
-    float: left;
-    width: 15%;
-    padding: 2,5%;
+#news {
+    float: right;
+    width: 10%;
+    padding: 1.0%;
     height: 100vh;
     color: #0F0F0F;
-    border-right: 5px solid #4d4d4d
-
-
+    border-left: 5px solid #4d4d4d; /* Изменено на border-left */
 }
 
-aside img {
+
+.nav_panel {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap; /* Добавляем перенос элементов */
+}
+
+.nav_panel img {
+    max-width: 100%; /* Максимальная ширина изображения, чтобы оно не выходило за пределы */
+    height: auto; /* Высота автоматически подстроится под ширину */
     width: 100%; /* Сделать картинку адаптивной по ширине */
-    height: auto; /* Автоматическая высота для сохранения пропорций */
     display: block; /* Убрать пустые пространства вокруг картинки */
 }
 
-aside ul {
+.nav_panel nav {
+    width: 100%; /* Ширина навигации подстроится под родительский элемент */
+}
+
+
+
+.nav_panel ul {
     display: block;
-    padding: 15px; /* Добавьте отступы, чтобы фон был виден вокруг элементов списка */
-    list-style-type: none; /* Убираем маркеры списка */
-    width: 200px; /* Устанавливаем ширину панели */
+    padding: 15px;
+    list-style-type: none;
+    width: auto; /* Изменяем ширину на auto, чтобы она подстраивалась под содержимое */
     background: linear-gradient(to bottom right, #ffffff, #cccccc);
     box-shadow: 10px 10px 20px #aaaaaa;
     border-radius: 10px;
     font-size: 18px;
 }
 
-aside li {
 
-}
-
-aside ul li {
+.nav_panel ul li {
     transition: transform .6s ease;
     padding: 2px;
     margin-bottom: 5px;
     border-bottom: 1px solid #000;
+    white-space: nowrap; /* Запрещаем перенос текста на новую строку */
 }
 
-aside ul a {
-
+.nav_panel ul a {
     text-decoration: none;
+    color: #0F0F0F;
 }
 
-aside ul li:hover, aside ul a:hover  {
-    transform: scale(1.1)
+.nav_panel ul li:hover, .nav_panel ul a:hover {
+    transform: scale(1.1);
 }
 
-aside a {
-color: #0F0F0F;
-    text-decoration: none;
-}
 
-aside h3 {
+.nav_panel h3 {
     margin-top: 25px;
     font-size: 25px;
 }
 
+@media (max-width: 1024px) {
+    #news {
+        display: none !important;
+    }
+}
 
+.procedure_list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap; /* Добавляем это свойство, чтобы элементы переносились на новую строку */
+}
+
+.procedure_list_item {
+    min-width: 150px; /* Устанавливаем минимальную ширину для элемента списка процедур */
+    flex: 1; /* Элементы будут растягиваться, чтобы заполнить доступное пространство */
+    margin: 10px; /* Добавляем немного отступа вокруг элементов */
+}
+
+.procedure_list_item_child {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 100%
+}
+
+.procedure_list_item img {
+    max-width: 100%;
+    height: auto;
+    width: auto; /* Изменяем на auto, чтобы изображение масштабировалось с сохранением пропорций */
+}
+
+.flex-container_3 {
+    z-index: 5;
+    display: flex;
+    background-color: rgba(255, 255, 255, 0.1);
+    height: 3%; /* Уменьшенная высота футера */
+    justify-content: center;
+    box-shadow: 15px 15px 15px #aaaaaa;
+    flex-direction: column;
+    border-radius: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+        .flex-child_3 {
+            align-items: flex-end;
+            display: flex; /* Добавляем display: flex для выравнивания внутренних элементов */
+            align-items: center; /* Выравнивание элементов по центру по вертикали */
+            justify-content: center;
+            color: white;
+        }
+
+        .flex-child_3 a {
+            padding: 10px;
+            text-decoration: none;
+            color: white;
+            background: #333;
+            margin: 5px;
+            box-shadow: 10px 10px 20px #aaaaaa;
+            border-radius: 10px;
+
+        }
+
+        .footer {
+            flex-shrink: 0;
+        }
+
+.link_procedure {
+    width: 100%; /* Ширина ссылки теперь равна ширине родительского элемента */
+    border: 1px solid #333;
+    padding: 8px 12px;
+    box-shadow: 10px 10px 20px #aaaaaa;
+    background: linear-gradient(to bottom right, #ffffff, #cccccc);
+    border-radius: 10px;
+}
+
+.procedure_list_item a {
+    transition: transform .6s ease;
+    text-decoration: none;
+}
+
+.procedure_list_item a:hover {
+    transform: scale(1.1);
+}

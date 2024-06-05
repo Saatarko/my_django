@@ -12,34 +12,43 @@
 </head>
 <body>
 
-    <aside>
-        <img src="{% static 'main/img/logo.jpg' %}" alt="">
+    <aside id="navigation-panel">
+    <div class="nav_panel">
+        <img src="{% static 'main/img/logo.jpg' %}" alt="Логотип">
         <h3>Навигация</h3>
-        <ul>
-            <a href="{% url 'home' %}"><li><i class="fa-solid fa-house-user"></i> Главная</li></a>
-            <li onclick="toggleServices(this)"><i class="fa-solid fa-shield-cat"></i></i> Наши услуги
-                <ul >
-                <a href="{% url 'procedure' %}"><li>Процедуры</li></a>
-                <a href=""><li>Операции</li></a>
-                 <a href=""><li>Услуга 3</li></a>
+        <nav>
+            <ul>
+                <li><a href="{% url 'home' %}"><i class="fa-solid fa-house-user"></i> Главная</a></li>
+                <li onclick="toggleServices(this)">
+                    <i class="fa-solid fa-shield-cat"></i> Наши услуги
+                    <ul>
+                        <li><a href="{% url 'procedure' %}">Процедуры</a></li>
+                        <li><a href="">Личный врач</a></li>
+                        <li><a href="">Груминг</a></li>
+                    </ul>
+                </li>
+                <li><a href="{% url 'about' %}"><i class="fa-regular fa-address-card"></i> О нас</a></li>
+                <li><a href="{% url 'contacts' %}"><i class="fa-regular fa-address-card"></i> Контакты</a></li>
             </ul>
-            </li>
-            <a href="{% url 'about' %}"><li><i class="fa-regular fa-address-card"></i></i> О нас</li></a>
-             <a href="{% url 'contacts' %}"><li><i class="fa-regular fa-address-card"></i></i> Контакты</li></a>
-
-
-
-        </ul>
-
-    </aside>
-
+        </nav>
+    </div>
+</aside>
+    <aside id="news">
+        </aside>
     <main>
 
      {% block content %} {% endblock %}
 
     </main>
 
+    <div class="flex-container_3">
+            <div class="footer">
+            <div  class="flex-child_3">
+                <a>Домашняя работа по теме Django: Published 2024-05-29. Copyright © 2024 Saatarko</a>
+            </div>
 
+            </div>
+        </div>
 
 </body>
 </html>
