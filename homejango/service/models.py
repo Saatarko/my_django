@@ -58,7 +58,8 @@ class Doctor(models.Model):
         verbose_name_plural = 'Врачи/Doctor'
 
 class Order(models.Model):
-    date_order = models.DateTimeField('Дата рождения')
+    date_order = models.DateTimeField('Дата бронирования')
+    time_order = models.DateTimeField('Время бронирования')
 
     procedure = models.ForeignKey(Procedure, on_delete=models.CASCADE)
     clients = models.ForeignKey(Pets, on_delete=models.CASCADE)

@@ -11,6 +11,16 @@
             {{ result }}<br>
 
             {{ error }}
+            <label>Выберите дату приема!</label>
+            <input type="date" value="{{ min_day_value }}" min="{{ min_day_value }}" max="{{ max_day_value }}">
+
+            <label>Выберите время приема!</label>
+            <select name="time" id="select">
+                {% for time in all_time %}
+                <option>{{time}}</option>
+                {% endfor %}
+
+            </select>
 
             <button class="btn btn-outline-success" type="submit">Записаться на прием</button>
         </form>
