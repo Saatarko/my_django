@@ -1,8 +1,15 @@
 {% extends 'main/layout.html' %}
-
+{% load static %}
 
 {% block content %}
+
     <h1>Процедура</h1>
-
-
+<a href="{% url 'order' result.name_procedure %}">
+    <button type="button" class="btn btn-outline-success">Записаться на прием</button>
+</a>
+    <section class="procedure_list">
+        <p>{{ result.name_procedure }}</p>
+        <p>{{ result.description }}</p>
+        <p>{{ result.price }}</p>
+    </section>
 {% endblock %}

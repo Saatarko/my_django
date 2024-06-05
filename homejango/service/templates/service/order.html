@@ -1,0 +1,18 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+
+{% block content %}
+    <h1>Запись</h1>
+    <section class="procedure_list">
+        <form method="post">
+            {% csrf_token %}
+            {{ form_client }}<br>
+            {{ form_pets }}<br>
+            {{ result }}<br>
+
+            {{ error }}
+
+            <button class="btn btn-outline-success" type="submit">Записаться на прием</button>
+        </form>
+     </section>
+{% endblock %}
