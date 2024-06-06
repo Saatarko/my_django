@@ -4,7 +4,7 @@
 {% block content %}
 
     <h1>Процедура</h1>
-<a href="{% url 'order' result.name_procedure %}">
+<a href="{% url 'order' result.name_procedure 'base'%}">
     <button type="button" class="btn btn-outline-success">Записаться на прием</button>
 </a>
     <section class="procedure_list">

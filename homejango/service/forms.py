@@ -1,5 +1,5 @@
-from .models import Procedure, Clients, Pets
-from django.forms import ModelForm, TextInput, NumberInput, DateInput
+from .models import Procedure, Clients, Pets, Order
+from django.forms import ModelForm, TextInput, NumberInput, DateInput, TimeInput
 
 
 class ClientsForms(ModelForm):
@@ -41,6 +41,25 @@ class PetForms(ModelForm):
             'color': TextInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'Укажите окрас питомца',
+            })
+
+        }
+
+class Order(ModelForm):
+    class Meta:
+        model = Order
+        fields = ['date_order','time_order']
+
+        widgets = {
+            'date_order': DateInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Укажите дату заявки',
+                'type': 'date',
+            }),
+            'time_order': TimeInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Укажите время заявки',
+                'type': 'time',
             })
 
         }
