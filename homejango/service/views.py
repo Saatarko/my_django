@@ -104,36 +104,36 @@ def order(request, name, additional_param):
         }
 
         return render(request, 'service/order.html', date)
-    else:
+    # else:
 
-        if request.method == 'POST':
-            form_client = ClientsForms(request.POST)
-            form_pets = PetForms(request.POST)
-            order = Order(date_order= ,time_order= )
-
-            if form_client.is_valid() and form_pets.is_valid():  #проверка данных на валидность формы. но не занчения
-                form_client.save()
-                form_pets.save()
-
-
-                return redirect('home')
-
-            else:
-                error = 'Форма заполнена неверно'
-                day_value = request.GET.get('date')
-                all_time = date_time_check(day_value)
-                date = {
-                    'form_client': form_client,
-                    'form_pets': form_pets,
-                    'result': result,
-                    'error': error,
-                    'day_value': day_value,
-                    'min_day_value': min_day_value,
-                    'max_day_value': max_day_value,
-                    'all_time': all_time,
-                    'step': 2,
-                }
-                return render(request, 'service/order.html', date)
+        # if request.method == 'POST':
+        #     form_client = ClientsForms(request.POST)
+        #     form_pets = PetForms(request.POST)
+        #     order = Order(date_order= ,time_order= )
+        #
+        #     if form_client.is_valid() and form_pets.is_valid():  #проверка данных на валидность формы. но не занчения
+        #         form_client.save()
+        #         form_pets.save()
+        #
+        #
+        #         return redirect('home')
+        #
+        #     else:
+        #         error = 'Форма заполнена неверно'
+        #         day_value = request.GET.get('date')
+        #         all_time = date_time_check(day_value)
+        #         date = {
+        #             'form_client': form_client,
+        #             'form_pets': form_pets,
+        #             'result': result,
+        #             'error': error,
+        #             'day_value': day_value,
+        #             'min_day_value': min_day_value,
+        #             'max_day_value': max_day_value,
+        #             'all_time': all_time,
+        #             'step': 2,
+        #         }
+        #         return render(request, 'service/order.html', date)
 
 
 
