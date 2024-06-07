@@ -1,7 +1,8 @@
+from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from .models import Clients, Vacations, Doctor, Procedure, Pets, Order
-from .forms import PetForms, ClientsForms
+from .forms import PetForms, ClientsForms, OrderForms
 from django.views.generic import DetailView, ListView  #DetailView - одна запиь, ListView - все записи
 from datetime import datetime, timedelta
 import logging
@@ -21,6 +22,11 @@ class ProcedureDetailView(ListView):
     context_object_name = 'procedure'
 
 
+@login_required    # можно в скобках указать url для перехода и он будет иметь больший приоритет
+def schedule(request):
+    return render(request, 'service/schedule.html')
+
+
 # def procedure_named(request, name):
 #     result = Procedure.objects.get(name_procedure=name)
 #     return render(request, 'service/procedure_name.html', {'result': result})
@@ -38,49 +44,72 @@ class ProcedureNameDetailView(DetailView):
         return Procedure.objects.filter(name_procedure=name)
 
 
+
+
+
 def order(request, name, additional_param):
     error = ''
 
+    result = Procedure.objects.get(name_procedure=name)
+    temp_id = result.id
     min_day_value = datetime.today().strftime("%Y-%m-%d")
     max_day_value = (datetime.today() + timedelta(days=30)).strftime("%Y-%m-%d")
-    result = Procedure.objects.get(name_procedure=name)
-    form_client = ClientsForms()
-    form_pets = PetForms()
+
+    form_order = OrderForms()
+
+    if additional_param == 'base':
+        day_value = datetime.today().strftime("%Y-%m-%d")
+
+        if request.POST:
+            if 'date' in request.POST:
+                date_order_str = request.POST['date']
+            all_time = date_time_check(date_order_str)
+            form_client = ClientsForms()
+            form_pets = PetForms()
+
+            date = {
+                'error': error,
+                'day_value': day_value,
+                'min_day_value': min_day_value,
+                'max_day_value': max_day_value,
+                'form_client': form_client,
+                'form_pets': form_pets,
+                'form_order': form_order,
+                'temp_id': temp_id,
+                'all_time': all_time,
+                'result': result
+            }
 
 
-    if additional_param == 'Base':
+        else:
+            date = {
+                'error': error,
+                'day_value': day_value,
+                'min_day_value': min_day_value,
+                'max_day_value': max_day_value,
+                'form_order': form_order,
+                'temp_id': temp_id,
+                'result': result
+            }
 
-        day_value = datetime.today()
-
-
-
-        date = {
-            'form_client': form_client,
-            'form_pets': form_pets,
-            'result': result,
-            'error': error,
-            'day_value': day_value,
-            'min_day_value': min_day_value,
-            'max_day_value': max_day_value,
-            'step': 1,
-        }
         return render(request, 'service/order.html', date)
 
     elif additional_param == 'secondbase':
 
         day_value = request.GET.get('date')
-        all_time = date_time_check(day_value)
+
 
         date = {
-            'form_client': form_client,
-            'form_pets': form_pets,
-            'result': result,
             'error': error,
             'day_value': day_value,
             'min_day_value': min_day_value,
             'max_day_value': max_day_value,
+            'form_client': form_client,
+            'form_pets': form_pets,
+            'form_order': form_order,
+            'temp_id': temp_id,
             'all_time': all_time,
-            'step': 2,
+            'result': result
         }
 
         return render(request, 'service/order.html', date)
@@ -91,51 +120,7 @@ def order(request, name, additional_param):
         day_value = request.GET.get('date')
         time = request.GET.get('time')
 
-        date = {
-            'form_client': form_client,
-            'form_pets': form_pets,
-            'result': result,
-            'error': error,
-            'day_value': day_value,
-            'min_day_value': min_day_value,
-            'max_day_value': max_day_value,
-            'time': time,
-            'step': 3,
-        }
-
-        return render(request, 'service/order.html', date)
-    # else:
-
-        # if request.method == 'POST':
-        #     form_client = ClientsForms(request.POST)
-        #     form_pets = PetForms(request.POST)
-        #     order = Order(date_order= ,time_order= )
-        #
-        #     if form_client.is_valid() and form_pets.is_valid():  #проверка данных на валидность формы. но не занчения
-        #         form_client.save()
-        #         form_pets.save()
-        #
-        #
-        #         return redirect('home')
-        #
-        #     else:
-        #         error = 'Форма заполнена неверно'
-        #         day_value = request.GET.get('date')
-        #         all_time = date_time_check(day_value)
-        #         date = {
-        #             'form_client': form_client,
-        #             'form_pets': form_pets,
-        #             'result': result,
-        #             'error': error,
-        #             'day_value': day_value,
-        #             'min_day_value': min_day_value,
-        #             'max_day_value': max_day_value,
-        #             'all_time': all_time,
-        #             'step': 2,
-        #         }
-        #         return render(request, 'service/order.html', date)
-
-
+        return render(request, 'service/order.html')
 
 
 def date_time_check(day_value):

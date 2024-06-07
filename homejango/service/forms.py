@@ -5,7 +5,7 @@ from django.forms import ModelForm, TextInput, NumberInput, DateInput, TimeInput
 class ClientsForms(ModelForm):
     class Meta:
         model = Clients
-        fields = ['name','phone']
+        fields = ['name', 'phone']
 
         widgets = {
             'name': TextInput(attrs={
@@ -23,12 +23,12 @@ class ClientsForms(ModelForm):
 class PetForms(ModelForm):
     class Meta:
         model = Pets
-        fields = ['nickname','birthdate','breed','color']
+        fields = ['nickname', 'birthdate', 'breed', 'color']
 
         widgets = {
             'nickname': TextInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'кажите кличку питомца',
+                'placeholder': 'Укажите кличку питомца',
             }),
             'birthdate': DateInput(attrs={
                 'class': 'form-control',
@@ -45,10 +45,11 @@ class PetForms(ModelForm):
 
         }
 
-class Order(ModelForm):
+
+class OrderForms(ModelForm):
     class Meta:
         model = Order
-        fields = ['date_order','time_order']
+        fields = ['date_order', 'time_order']
 
         widgets = {
             'date_order': DateInput(attrs={

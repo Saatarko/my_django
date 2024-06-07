@@ -5,47 +5,24 @@
     <h1>Запись</h1>
     <section class="procedure_list">
         <form method="post">
-            {% csrf_token %}
             <div>
-                <div>
-                     <label>Выберите дату приема!</label>
-                    <input type="date_order" value="{{ day_value }}" min="{{ min_day_value }}" max="{{ max_day_value }}">
-                </div>
-                <div>
-                     <a href="{% url 'order' result.name_procedure 'secondbase'%}">
-                         <button type="button" class="btn btn-outline-success"> Проверить время</button>
-<                    </a>
+                 <label>Выберите дату приема!</label>
+                 <input type="date" id="myDateField" class='form-control' value="{{ day_value }}" min="{{ min_day_value }}" max="{{ max_day_value }}">
+                        <a id="myLink" href="{% url 'order' result.name_procedure 'secondbase' %}">
+                            <button type="submit" class="btn btn-outline-success"> Проверить время</button>
+                        </a>
+            </div>
+            {% csrf_token %}
 
-                </div>
-             </div>
-             <div>
-                 {% if step>1 %}
-                    <label>Выберите время приема!</label>
-                            <select name="time_order" id="select">
-                                {% for time in all_time %}
-                                <option>{{time}}</option>
-                                {% endfor %}
+             {{ form_client }}<br>
+             {{ form_pets }}<br>
+             {{ result }}<br>
 
-                            </select>
-                   <a href="{% url 'order' result.name_procedure 'thirdbase'%}">
-                         <button type="button" class="btn btn-outline-success"> Оформить заявку</button>
-<                    </a>
-                  {% endif %}
-             </div>
-
-             <div>
-             {% if step>2 %}
-                     {{ form_client }}<br>
-                    {{ form_pets }}<br>
-                    {{ result }}<br>
 
                     {{ error }}
                  <button class="btn btn-outline-success" type="submit">Отправить заявку</button>
-            {% endif %}
-            </div>
-
-
         </form>
      </section>
+
 {% endblock %}
 

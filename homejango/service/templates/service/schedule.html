@@ -2,14 +2,12 @@
 {% load static %}
 
 {% block content %}
-<h1>Авторизация</h1>
+<h1>Типа расписание работы сотрудников</h1>
 
 <div class="form-error">{{ from.non_field_errors }}</div>
 <form method="post">
 {% csrf_token %}
-{{ form.as_p}}
 
-<p><button type="submit">Войти</button></p>
 
 
 </form>
