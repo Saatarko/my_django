@@ -3,9 +3,10 @@
 
 {% block content %}
     <h1>Запись</h1>
-    {% csrf_token %}
+
     <section class="procedure_list">
         <form method="post">
+            {% csrf_token %}
             <div>
                  <label>Выберите дату приема!</label>
                  <input type="date" id="myDateField" class='form-control' value="{{ day_value }}" min="{{ min_day_value }}" max="{{ max_day_value }}">

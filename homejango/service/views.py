@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 
-from users.forms import ProfileUserForm
+from users.forms import ProfileUserForm, PetsFormSet
 from .models import Clients, Vacations, Doctor, Procedure, Pets, Order
 from .forms import PetForms, ClientsForms, OrderForms
 from django.views.generic import DetailView, ListView  #DetailView - одна запиь, ListView - все записи
@@ -87,16 +87,17 @@ def order(request, name, additional_param):
 
                 client = Clients.objects.get(first_name=current_user.first_name, last_name=current_user.last_name)
                 client_id = client.id
-                client, created = Clients.objects.get_or_create(user=current_user)
-                form = ProfileUserForm(request.POST or None, instance=user)
                 pets_formset = PetsFormSet(request.POST or None, instance=client)
 
                 date = {
                     'date_temp': date_temp,
                     'time_temp': time_temp,
                     'procedure_id': procedure_id,
+                    'client': client,
                     'client_id': client_id,
-                     }
+                    'pets_formset': pets_formset,
+                    'result.name_procedure': result.name_procedure,
+                }
 
                 return render(request, 'service/order_confirm.html', date)
         else:
@@ -119,10 +120,8 @@ def order(request, name, additional_param):
 def date_time_check(day_value):
     date_str = day_value
 
-
     # Преобразуем строку в объект datetime.date
     date_to_check = datetime.strptime(date_str, '%Y-%m-%d').date()
-
 
     start_time = datetime.strptime('09:00', '%H:%M').time()
     end_time = datetime.strptime('23:00', '%H:%M').time()
@@ -134,8 +133,11 @@ def date_time_check(day_value):
     # Получите список времён, которые уже заняты в этот день
     occupied_slots = Order.objects.filter(date_order=date_to_check).values_list('time_order', flat=True)
 
-
     # Отфильтруйте занятые времена из списка доступных времён
     available_slots = [time for time in time_slots if time not in occupied_slots]
 
     return available_slots
+
+
+def order_confirm(request):
+    return render(request, 'service/order_confirm.html')

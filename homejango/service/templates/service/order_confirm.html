@@ -5,8 +5,21 @@
     <h1>Запись</h1>
     {% csrf_token %}
     <section class="procedure_list">
-        <form method="post">
+        {{ client.id}}
+        {{ client.first_name }}
+        {{ client.last_name }}
+        {{ client.phone }}
 
+        {{ date_temp }}
+        {{ time_temp }}
+        {{ procedure_id }}
+        {{ result.name_procedure }}
+
+        <form method="post">
+        {{ pets_formset.management_form }}
+        {% for pet_form in pets_formset %}
+        {{ pet_form.as_p }}
+        {% endfor %}
 
         </form>
      </section>

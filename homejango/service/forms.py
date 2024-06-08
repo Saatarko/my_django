@@ -1,6 +1,12 @@
 from .models import Procedure, Clients, Pets, Order
 from django.forms import ModelForm, TextInput, NumberInput, DateInput, TimeInput
 
+from django import forms
+from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.forms import inlineformset_factory
+
+
 
 class ClientsForms(ModelForm):
     class Meta:
@@ -68,3 +74,4 @@ class OrderForms(ModelForm):
             })
 
         }
+
