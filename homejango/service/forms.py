@@ -5,12 +5,16 @@ from django.forms import ModelForm, TextInput, NumberInput, DateInput, TimeInput
 class ClientsForms(ModelForm):
     class Meta:
         model = Clients
-        fields = ['name', 'phone']
+        fields = ['first_name', 'last_name', 'phone']
 
         widgets = {
-            'name': TextInput(attrs={
+            'first_name': TextInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'Укажите ваше ФИО',
+                'placeholder': 'Укажите ваше Имя',
+            }),
+            'last_name': TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Укажите вашу Фамилию',
             }),
             'phone': NumberInput(attrs={
                 'class': 'form-control',

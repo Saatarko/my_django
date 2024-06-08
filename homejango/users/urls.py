@@ -7,7 +7,9 @@ app_name = 'users'
 urlpatterns = [
    # для вывода нужной страницы после входа/выхода нужно прописать или
    # функции get-succes_url или в settings  LOGOUT/LOGIN_REDIRECT_URL
-   path('login', views.LoginUser.as_view(), name='login'),     # для
-   path('logout', LogoutView.as_view(), name='logout'),
-
+   path('login/', views.LoginUser.as_view(), name='login'),     # для
+   path('logout/', LogoutView.as_view(), name='logout'),
+   path('register/', views.register, name='register'),
+   path('profile/', views.profile_update, name='profile'),
+   path('register/done/', views.register_done, name='register_done'),
 ]

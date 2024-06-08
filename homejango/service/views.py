@@ -1,6 +1,8 @@
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
+
+from users.forms import ProfileUserForm
 from .models import Clients, Vacations, Doctor, Procedure, Pets, Order
 from .forms import PetForms, ClientsForms, OrderForms
 from django.views.generic import DetailView, ListView  #DetailView - одна запиь, ListView - все записи
@@ -22,7 +24,7 @@ class ProcedureDetailView(ListView):
     context_object_name = 'procedure'
 
 
-@login_required    # можно в скобках указать url для перехода и он будет иметь больший приоритет
+@login_required  # можно в скобках указать url для перехода и он будет иметь больший приоритет
 def schedule(request):
     return render(request, 'service/schedule.html')
 
@@ -44,14 +46,11 @@ class ProcedureNameDetailView(DetailView):
         return Procedure.objects.filter(name_procedure=name)
 
 
-
-
-
 def order(request, name, additional_param):
     error = ''
-
+    step = False
     result = Procedure.objects.get(name_procedure=name)
-    temp_id = result.id
+    procedure_id = result.id
     min_day_value = datetime.today().strftime("%Y-%m-%d")
     max_day_value = (datetime.today() + timedelta(days=30)).strftime("%Y-%m-%d")
 
@@ -61,75 +60,69 @@ def order(request, name, additional_param):
         day_value = datetime.today().strftime("%Y-%m-%d")
 
         if request.POST:
-            if 'date' in request.POST:
+            if 'date' in request.POST and 'time' not in request.POST:
                 date_order_str = request.POST['date']
-            all_time = date_time_check(date_order_str)
-            form_client = ClientsForms()
-            form_pets = PetForms()
+                day_value = date_order_str
+                all_time = date_time_check(date_order_str)
 
-            date = {
-                'error': error,
-                'day_value': day_value,
-                'min_day_value': min_day_value,
-                'max_day_value': max_day_value,
-                'form_client': form_client,
-                'form_pets': form_pets,
-                'form_order': form_order,
-                'temp_id': temp_id,
-                'all_time': all_time,
-                'result': result
-            }
+                date = {
+                    'error': error,
+                    'day_value': day_value,
+                    'min_day_value': min_day_value,
+                    'max_day_value': max_day_value,
+                    'form_order': form_order,
+                    'procedure_id': procedure_id,
+                    'result': result,
+                    'all_time': all_time,
+                    'step1': True
+                }
 
+                return render(request, 'service/order.html', date)
 
+            elif 'date' in request.POST and 'time' in request.POST:
+
+                date_temp = request.POST['date']
+                time_temp = request.POST['time']
+                current_user = request.user
+
+                client = Clients.objects.get(first_name=current_user.first_name, last_name=current_user.last_name)
+                client_id = client.id
+                client, created = Clients.objects.get_or_create(user=current_user)
+                form = ProfileUserForm(request.POST or None, instance=user)
+                pets_formset = PetsFormSet(request.POST or None, instance=client)
+
+                date = {
+                    'date_temp': date_temp,
+                    'time_temp': time_temp,
+                    'procedure_id': procedure_id,
+                    'client_id': client_id,
+                     }
+
+                return render(request, 'service/order_confirm.html', date)
         else:
+
             date = {
                 'error': error,
                 'day_value': day_value,
                 'min_day_value': min_day_value,
                 'max_day_value': max_day_value,
                 'form_order': form_order,
-                'temp_id': temp_id,
-                'result': result
+                'procedure_id': procedure_id,
+                'step': True,
             }
 
-        return render(request, 'service/order.html', date)
+            return render(request, 'service/order.html', date)
 
-    elif additional_param == 'secondbase':
-
-        day_value = request.GET.get('date')
-
-
-        date = {
-            'error': error,
-            'day_value': day_value,
-            'min_day_value': min_day_value,
-            'max_day_value': max_day_value,
-            'form_client': form_client,
-            'form_pets': form_pets,
-            'form_order': form_order,
-            'temp_id': temp_id,
-            'all_time': all_time,
-            'result': result
-        }
-
-        return render(request, 'service/order.html', date)
-
-
-    elif additional_param == 'thirdbase':
-
-        day_value = request.GET.get('date')
-        time = request.GET.get('time')
-
-        return render(request, 'service/order.html')
+    return render(request, 'service/order.html')
 
 
 def date_time_check(day_value):
     date_str = day_value
-    print(f'Получена дата из запроса: {date_str}')
+
 
     # Преобразуем строку в объект datetime.date
     date_to_check = datetime.strptime(date_str, '%Y-%m-%d').date()
-    print(f'Дата преобразована в объект datetime.date: {date_to_check}')
+
 
     start_time = datetime.strptime('09:00', '%H:%M').time()
     end_time = datetime.strptime('23:00', '%H:%M').time()
@@ -137,14 +130,12 @@ def date_time_check(day_value):
     # Создайте список времён с интервалом в 30 минут используя генератор списка и цикл for
     time_slots = [(datetime.combine(date_to_check, start_time) + timedelta(minutes=30 * i)).time() for i in range(
         (datetime.combine(date_to_check, end_time) - datetime.combine(date_to_check, start_time)).seconds // 1800)]
-    print(f'time_slots: {time_slots}')
+
     # Получите список времён, которые уже заняты в этот день
     occupied_slots = Order.objects.filter(date_order=date_to_check).values_list('time_order', flat=True)
-    print(f'occupied_slots: {occupied_slots}')
+
 
     # Отфильтруйте занятые времена из списка доступных времён
     available_slots = [time for time in time_slots if time not in occupied_slots]
-
-    logging.info(f'Доступные временные слоты: {available_slots}')
 
     return available_slots

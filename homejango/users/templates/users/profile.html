@@ -1,0 +1,21 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+
+{% block content %}
+<h1>Профиль</h1>
+
+<div class="form-error">{{ from.non_field_errors }}</div>
+<form method="post">
+{% csrf_token %}
+{{ form.as_p}}
+
+{{ pets_formset.management_form }}
+{% for pet_form in pets_formset %}
+{{ pet_form.as_p }}
+{% endfor %}
+
+<p><button type="submit">Сохранить</button></p>
+
+
+</form>
+{% endblock %}

@@ -16,7 +16,7 @@
     <div class="nav_panel">
         <img src="{% static 'main/img/logo.jpg' %}" alt="Логотип">
                  {% if user.is_authenticated %}
-                <p>Добро пожаловать {{user.username}}</p>
+                <p>Добро пожаловать <a href="{% url 'users:profile' %}">{{user.username}}</a></p>
                 {% endif %}
         <h3>Навигация</h3>
         <nav>
@@ -36,8 +36,8 @@
                  <li><a href="{% url 'schedule' %}"><i class="fa-regular fa-address-card"></i>Расписание</a></li>
                 <li><a href="{% url 'users:logout' %}"><i class="fa-regular fa-address-card"></i>Выход</a></li>
                 {% else %}
-                <li><a href="{% url 'users:login' %}"><i class="fa-regular fa-address-card"></i> Вход</a> | <a
-                        href="{% url 'users:login' %}"><i class="fa-regular fa-address-card"></i> Регистрация</a>
+                <li><a href="{% url 'users:login' %}"><i class="fa-regular fa-address-card"></i> Вход</a> |<a
+                        href="{% url 'users:register' %}"><i class="fa-regular fa-address-card"></i>Регистрация</a>
                 </li>
 
                 {% endif %}
