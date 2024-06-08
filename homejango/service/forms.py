@@ -75,3 +75,10 @@ class OrderForms(ModelForm):
 
         }
 
+    def __init__(self, *args, **kwargs):
+        super(OrderForms, self).__init__(*args, **kwargs)
+        self.fields['date_order'].widget.attrs.update({
+            'value': kwargs.get('initial', {}).get('day_value', ''),
+            'min': kwargs.get('initial', {}).get('min_day_value', ''),
+            'max': kwargs.get('initial', {}).get('max_day_value', '')
+        })

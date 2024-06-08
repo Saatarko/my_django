@@ -3,51 +3,31 @@
 
 {% block content %}
     <h1>Запись</h1>
+    {% csrf_token %}
+    <form method="post">
     <section class="procedure_list">
-        <form method="post">
-            {% csrf_token %}
-            <div>
-                <div>
-                     <label>Выберите дату приема!</label>
-                    <input type="date_order" value="{{ day_value }}" min="{{ min_day_value }}" max="{{ max_day_value }}">
-                </div>
-                <div>
-                    {{ result.name_procedure }}
-{{ 'secondbase' }}
-                     <a href="{% url 'order' result.name_procedure 'secondbase'%}">
-                         <button type="button" class="btn btn-outline-success"> Проверить время</button>
-<                    </a>
+        {{ client.id}}<p> Клиент id</p><br>
+        {{ client.first_name }}<p> client.first_name</p><br>
+        {{ client.last_name }}<p> client.last_name</p><br>
+        {{ client.phone }}<p> client.phone</p><br>
 
-                </div>
-             </div>
-             <div>
-                 {% if step > 1 %}
-                    <label>Выберите время приема!</label>
-                            <select name="time_order" id="select">
-                                {% for time in all_time %}
-                                <option>{{time}}</option>
-                                {% endfor %}
-
-                            </select>
-                   <a href="{% url 'order' result.name_procedure 'thirdbase'%}">
-                         <button type="button" class="btn btn-outline-success"> Оформить заявку</button>
-<                    </a>
-                  {% endif %}
-             </div>
-
-             <div>
-             {% if step > 2 %}
-                     {{ form_client }}<br>
-                    {{ form_pets }}<br>
-                    {{ result }}<br>
-
-                    {{ error }}
-                 <button class="btn btn-outline-success" type="submit">Отправить заявку</button>
-            {% endif %}
-            </div>
+        {{ date_temp }}<p> date_temp</p><br>
+        {{ time_temp }}<p> time_temp</p><br>
+        {{ procedure_id }}<p> procedure_id</p><br><br>
+        {{ procedure }}<p> procedure</p><br>
+        {{ random_doctor_id }}<p> random_doctor_id</p><br>
 
 
-        </form>
+        {% for el in pets_formset %}
+        {{ el.nickname }} <button type="submit" class="btn btn-outline-success"> Записать </button>
+        {% endfor %}
+
+
      </section>
-{% endblock %}
+     </form>
+        <a href="{% url 'order' procedure 'base'%}">
+    <button type="button" class="btn btn-outline-success">Выбрать другую дату</button>
+</a>
 
+
+{% endblock %}

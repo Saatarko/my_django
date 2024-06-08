@@ -9,8 +9,8 @@
             {% csrf_token %}
             <div>
                  <label>Выберите дату приема!</label>
-                 <input type="date" id="myDateField" class='form-control' value="{{ day_value }}" min="{{ min_day_value }}" max="{{ max_day_value }}">
-                                  <button type="submit" class="btn btn-outline-success"> Проверить время</button>
+                {{form_order.date_order}}
+                <button type="submit" class="btn btn-outline-success"> Проверить доступное время приема</button>
             </div>
             {% if step1 is True %}
                              <label>Выберите время приема!</label>

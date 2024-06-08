@@ -4,25 +4,45 @@
 {% block content %}
     <h1>Запись</h1>
     {% csrf_token %}
-    <section class="procedure_list">
-        {{ client.id}}
-        {{ client.first_name }}
-        {{ client.last_name }}
-        {{ client.phone }}
 
-        {{ date_temp }}
-        {{ time_temp }}
-        {{ procedure_id }}
-        {{ result.name_procedure }}
-
-        <form method="post">
-        {{ pets_formset.management_form }}
-        {% for pet_form in pets_formset %}
-        {{ pet_form.as_p }}
+        <form method="post" id="dataForm">
+        {% csrf_token %}
+        <!-- Поля данных клиента -->
+        <input type="hidden" name="client_id" value="{{ client.id }}">
+        <input type="hidden" name="first_name" value="{{ client.first_name }}">
+        <input type="hidden" name="last_name" value="{{ client.last_name }}">
+        <input type="hidden" name="phone" value="{{ client.phone }}">
+        <!-- Поля временных данных -->
+        <input type="hidden" name="date_temp" value="{{ date_temp }}">
+        <input type="hidden" name="time_temp" value="{{ time_temp }}">
+        <input type="hidden" name="procedure_id" value="{{ procedure_id }}">
+        <input type="hidden" name="procedure" value="{{ procedure }}">
+        <input type="hidden" name="random_doctor_id" value="{{ random_doctor_id }}">
+        <!-- Динамические поля для животных -->
+        {% for el in pets_formset %}
+            <input type="hidden" name="pet_id_{{ forloop.counter }}" value="{{ el.id }}">
+            <button type="submit" name="submit_button" value="{{ el.id }}"> {{el.nickname}} Записать</button>
         {% endfor %}
+    </form>
 
-        </form>
+      <section class="procedure_list">
+        {{ client.id}}<p> Клиент id</p><br>
+        {{ client.first_name }}<p> client.first_name</p><br>
+        {{ client.last_name }}<p> client.last_name</p><br>
+        {{ client.phone }}<p> client.phone</p><br>
+
+        {{ date_temp }}<p> date_temp</p><br>
+        {{ time_temp }}<p> time_temp</p><br>
+        {{ procedure_id }}<p> procedure_id</p><br><br>
+        {{ procedure }}<p> procedure</p><br>
+        {{ random_doctor_id }}<p> random_doctor_id</p><br>
+
+
      </section>
+        <a href="{% url 'order' procedure 'base'%}">
+    <button type="button" class="btn btn-outline-success">Выбрать другую дату</button>
+</a>
+
 
 {% endblock %}
 

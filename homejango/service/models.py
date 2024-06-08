@@ -52,7 +52,7 @@ class Doctor(models.Model):
     profession = models.CharField('Профессия', max_length=30)
     salary = models.IntegerField('ЗП')
 
-    procedure = models.ForeignKey(Procedure, on_delete=models.CASCADE)
+
 
     def __str__(self):
         return self.name
@@ -63,11 +63,12 @@ class Doctor(models.Model):
 
 
 class Order(models.Model):
-    date_order = models.DateTimeField('Дата бронирования')
-    time_order = models.DateTimeField('Время бронирования')
+    date_order = models.DateField('Дата бронирования')
+    time_order = models.TimeField('Время бронирования')
 
     procedure = models.ForeignKey(Procedure, on_delete=models.CASCADE)
     clients = models.ForeignKey(Pets, on_delete=models.CASCADE)
+    doctor = models.OneToOneField(Doctor, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.date_order

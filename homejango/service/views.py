@@ -1,3 +1,5 @@
+import random
+
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
@@ -54,16 +56,20 @@ def order(request, name, additional_param):
     min_day_value = datetime.today().strftime("%Y-%m-%d")
     max_day_value = (datetime.today() + timedelta(days=30)).strftime("%Y-%m-%d")
 
-    form_order = OrderForms()
-
     if additional_param == 'base':
         day_value = datetime.today().strftime("%Y-%m-%d")
 
         if request.POST:
-            if 'date' in request.POST and 'time' not in request.POST:
-                date_order_str = request.POST['date']
+            if 'date_order' in request.POST and 'time_order' not in request.POST:
+                date_order_str = request.POST['date_order']
                 day_value = date_order_str
                 all_time = date_time_check(date_order_str)
+
+                form_order = OrderForms(initial={
+                    'day_value': day_value,
+                    'min_day_value': day_value,
+                    'max_day_value': max_day_value
+                })
 
                 date = {
                     'error': error,
@@ -79,28 +85,39 @@ def order(request, name, additional_param):
 
                 return render(request, 'service/order.html', date)
 
-            elif 'date' in request.POST and 'time' in request.POST:
+            elif 'date_order' in request.POST and 'time_order' in request.POST:
 
-                date_temp = request.POST['date']
-                time_temp = request.POST['time']
+                date_temp = request.POST['date_order']
+                time_temp = request.POST['time_order']
                 current_user = request.user
 
                 client = Clients.objects.get(first_name=current_user.first_name, last_name=current_user.last_name)
                 client_id = client.id
-                pets_formset = PetsFormSet(request.POST or None, instance=client)
+                # pets_formset = PetsFormSet(request.POST or None, instance=client)
+                # pets_formset = Pets.objects.filter(clients=client_id)
+                #
+                # doctor = Doctor.objects.filter(profession=result.name_procedure)
+                # random_doctor = random.choice(doctor)
+                # # Получаем id выбранного доктора
+                # random_doctor_id = random_doctor.id
+                # procedure = Procedure.objects.get(id=procedure_id)
 
                 date = {
                     'date_temp': date_temp,
                     'time_temp': time_temp,
                     'procedure_id': procedure_id,
-                    'client': client,
                     'client_id': client_id,
-                    'pets_formset': pets_formset,
-                    'result.name_procedure': result.name_procedure,
+
                 }
 
-                return render(request, 'service/order_confirm.html', date)
+                return redirect('order_confirm', procedure_id=procedure_id, client_id=client_id, date_temp=date_temp,
+                                time_temp=time_temp)
         else:
+            form_order = OrderForms(initial={
+                'day_value': day_value,
+                'min_day_value': min_day_value,
+                'max_day_value': max_day_value
+            })
 
             date = {
                 'error': error,
@@ -139,5 +156,46 @@ def date_time_check(day_value):
     return available_slots
 
 
-def order_confirm(request):
-    return render(request, 'service/order_confirm.html')
+def order_confirm(request, procedure_id, client_id, date_temp, time_temp):
+
+    procedure = Procedure.objects.get(id=procedure_id)
+
+    client = Clients.objects.get(id=client_id)
+    pets_formset = Pets.objects.filter(clients=client_id)
+
+    doctor = Doctor.objects.filter(profession=procedure.name_procedure)
+    random_doctor = random.choice(doctor)
+    # Получаем id выбранного доктора
+    random_doctor_id = random_doctor.id
+
+
+
+    if request.POST:
+        procedure_instance = Procedure.objects.get(id=procedure_id)
+        client_instance = Clients.objects.get(id=client_id)
+        doctor_instance = Doctor.objects.get(id=random_doctor_id)
+
+        pet_id = request.POST.get('submit_button')
+        # Теперь мы можем использовать pet_id для получения экземпляра питомца или других операций
+        pet_instance = Pets.objects.get(id=pet_id)
+
+        order = Order(date_order=date_temp, time_order=time_temp,
+                      procedure=procedure_instance, clients=pet_instance,
+                      doctor=doctor_instance)
+        order.save()
+
+        return redirect('home')
+    else:
+
+
+        date = {
+            'date_temp': date_temp,
+            'time_temp': time_temp,
+            'procedure_id': procedure_id,
+            'client': client,
+            'client_id': client_id,
+            'pets_formset': pets_formset,
+            'procedure': procedure,
+            'random_doctor_id': random_doctor_id,
+        }
+    return render(request, 'service/order_confirm.html', date)
