@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate, login, logout, get_user_model
+from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
@@ -13,6 +14,9 @@ from .forms import LoginUserForm, RegisterUserForm
 from .forms import ProfileUserForm, PetsFormSet
 
 # Create your views here.
+
+
+
 
 # def login_user(request):       # логин через функцию
 #     if request.method == 'POST':

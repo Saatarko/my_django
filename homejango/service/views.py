@@ -1,9 +1,11 @@
 import random
+from functools import wraps
 
-from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
+from django.http import JsonResponse, HttpResponseForbidden
 from django.shortcuts import render, redirect
 
+import service
 from users.forms import ProfileUserForm, PetsFormSet
 from .models import Clients, Vacations, Doctor, Procedure, Pets, Order
 from .forms import PetForms, ClientsForms, OrderForms
@@ -19,6 +21,14 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 #     procedure_ = Procedure.objects.all
 #     return render(request, 'service/procedure.html', {'procedure_': procedure_})
 
+def check_specific_user(view_func):
+    @wraps(view_func)
+    def _wrapped_view(request, *args, **kwargs):
+        # Проверяем, что пользователь - это Modetaror или Saatarko
+        if not (request.user.username == "Modetaror" or request.user.username == "Saatarko"):
+            return HttpResponseForbidden("Доступ запрещен")
+        return view_func(request, *args, **kwargs)
+    return _wrapped_view
 
 class ProcedureDetailView(ListView):
     model = Procedure
@@ -26,7 +36,8 @@ class ProcedureDetailView(ListView):
     context_object_name = 'procedure'
 
 
-@login_required  # можно в скобках указать url для перехода и он будет иметь больший приоритет
+# @login_required  # можно в скобках указать url для перехода и он будет иметь больший приоритет
+@check_specific_user
 def schedule(request):
     doctor_list = Doctor.objects.all()
     appointments = Order.objects.filter(

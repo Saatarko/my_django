@@ -1,0 +1,36 @@
+{% extends 'main/layout.html' %}
+
+
+{% block content %}
+<h1>Отзывы</h1>
+<p>Отзывы</p>
+        {% for el in context %}
+
+                    <div>
+                        {{el.name}}
+                        {{el.description}}
+                        <a href="{% url 'reviews_delete' el.id %}"> <button class="btn btn-outline-success">Удалить отзыв</button></a>
+                    </div>
+        {% endfor %}
+
+         {% if user.is_authenticated %}
+
+
+        <form method="post">
+            {% csrf_token %}
+                       <div class="form-group">
+                    {{ form.name.label_tag }}
+                    {{ form.name }}
+                    {{ form.name.errors }}
+                </div>
+                <div class="form-group">
+                    {{ form.description.label_tag }}
+                    {{ form.description }}
+                    {{ form.description.errors }}
+                </div>
+                 <button type="submit" class="btn btn-primary">Отправить</button>
+
+        </form>
+           {% endif %}
+
+{% endblock %}
