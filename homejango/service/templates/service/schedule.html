@@ -7,8 +7,28 @@
 <div class="form-error">{{ from.non_field_errors }}</div>
 <form method="post">
 {% csrf_token %}
+  <input type="date" name="date_order">
+  <select name="doctor" id="doctor-select">
+    {% for doctor in doctor_list %}
+        <option value="{{ doctor.name }}">{{ doctor.name }}</option>
+    {% endfor %}
+</select>
 
+ <button type="submit" name="submit_button"> {{el.nickname}} Фильтровать</button>
+  <a href="{% url 'schedule' %}">
+    <button type="button" class="btn btn-outline-success">Сбросить фильтры</button>
+</a>
 
 
 </form>
+
+{% for appointment in appointments %}
+  <p>Дата бронирования: {{ appointment.date_order }}</p>
+  <p>Время бронирования: {{ appointment.time_order }}</p>
+  <p>Процедура: {{appointment.procedure.name_procedure}}</p>
+  <p>Питомец: {{appointment.clients.nickname }}</p>
+  <p>Порода: {{appointment.clients.breed }}</p>
+  <p>Доктор: {{appointment.doctor.name }}</p> <
+{% endfor %}
+
 {% endblock %}

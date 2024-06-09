@@ -28,7 +28,29 @@ class ProcedureDetailView(ListView):
 
 @login_required  # можно в скобках указать url для перехода и он будет иметь больший приоритет
 def schedule(request):
-    return render(request, 'service/schedule.html')
+    doctor_list = Doctor.objects.all()
+    appointments = Order.objects.filter(
+        date_order__gt=(datetime.today() - timedelta(days=7)).strftime("%Y-%m-%d")).select_related('procedure',
+                                                                                                   'clients', 'doctor')
+
+    if request.method == 'POST':
+        date_temp = request.POST.get('date_order')
+        selected_doctor_name = request.POST.get('doctor')
+
+        if date_temp:
+            appointments = appointments.filter(date_order__gt=date_temp)
+
+        if selected_doctor_name:
+            selected_doctor = Doctor.objects.filter(name=selected_doctor_name).first()
+            if selected_doctor:
+                appointments = appointments.filter(doctor__id=selected_doctor.id)
+
+    context = {
+        'appointments': appointments,
+        'doctor_list': doctor_list,
+    }
+
+    return render(request, 'service/schedule.html', context)
 
 
 # def procedure_named(request, name):
@@ -157,7 +179,6 @@ def date_time_check(day_value):
 
 
 def order_confirm(request, procedure_id, client_id, date_temp, time_temp):
-
     procedure = Procedure.objects.get(id=procedure_id)
 
     client = Clients.objects.get(id=client_id)
@@ -167,8 +188,6 @@ def order_confirm(request, procedure_id, client_id, date_temp, time_temp):
     random_doctor = random.choice(doctor)
     # Получаем id выбранного доктора
     random_doctor_id = random_doctor.id
-
-
 
     if request.POST:
         procedure_instance = Procedure.objects.get(id=procedure_id)
@@ -186,7 +205,6 @@ def order_confirm(request, procedure_id, client_id, date_temp, time_temp):
 
         return redirect('home')
     else:
-
 
         date = {
             'date_temp': date_temp,
