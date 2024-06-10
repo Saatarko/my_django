@@ -5,19 +5,20 @@
     float: left;
     width: 17%;
     padding: 1.0%;
-    height: 100vh;
+    height: 100vh; /* Используем высоту экрана (100vh) */
+    position: relative; /* Задаем позицию relative для элемента-родителя */
     color: #0F0F0F;
     border-right: 5px solid #4d4d4d
 
 }
-
-#news {
-    float: right;
-    width: 10%;
-    padding: 1.0%;
-    height: 100vh;
-    color: #0F0F0F;
-    border-left: 5px solid #4d4d4d; /* Изменено на border-left */
+#navigation-panel::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 2px; /* Ширина вашей границы */
+    background-color: #4d4d4d; /* Цвет вашей границы */
 }
 
 
@@ -75,11 +76,7 @@
     font-size: 25px;
 }
 
-@media (max-width: 1024px) {
-    #news {
-        display: none !important;
-    }
-}
+
 
 .procedure_list {
     display: flex;
@@ -159,4 +156,92 @@
 
 .procedure_list_item a:hover {
     transform: scale(1.1);
+}
+
+.main_text {
+    width: 100%; /* Ширина ссылки теперь равна ширине родительского элемента */
+    border: 1px solid #333;
+    padding: 2px 12px;
+    box-shadow: 10px 10px 20px #aaaaaa;
+    background: linear-gradient(to bottom right, #ffffff, #cccccc);
+    border-radius: 10px;
+
+}
+.content {
+    width: 80%; /* Ширина контента, чтобы занять оставшееся место между ASIDE */
+    float: left; /* Можно удалить это свойство, если используем flexbox */
+    padding: 1.0%;
+    height: 100vh;
+    color: #0F0F0F;
+    display: flex; /* Используем flexbox */
+    flex-direction: column; /* Направление flexbox - столбец */
+
+}
+.content img{
+    max-width: 100%;
+    height: auto;
+}
+
+.content p {
+flex: 1; /* Расширяет текст на оставшееся пространство внутри flex-контейнера */
+}
+
+@media (max-width: 1024px) {
+    #news {
+        display: none !important;
+    }
+}
+
+.main_h {
+
+    text-align: center; /* Выравниваем текст по центру */
+    margin: 0; /* Убираем внешние отступы у заголовка */
+    padding: 20px 0; /* Добавляем внутренние отступы для отделения заголовка от ASIDE и контента */
+    width: 100%; /* Ширина заголовка равна ширине контейнера */
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2.5em;
+    font-weight: bold;
+    color: #333; /* Цвет текста */
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2); /* Тень текста */
+}
+
+ body {
+            background-color: #E4FFFF;
+            margin: 0;
+            padding: 0;
+        }
+
+
+.nav_h {
+
+    text-align: left; /* Выравниваем текст по центру */
+    margin: 0; /* Убираем внешние отступы у заголовка */
+    padding: 20px 0; /* Добавляем внутренние отступы для отделения заголовка от ASIDE и контента */
+    width: 100%; /* Ширина заголовка равна ширине контейнера */
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #333; /* Цвет текста */
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2); /* Тень текста */
+}
+
+.content_review {
+    display: flex;
+    flex-direction: row; /* Изменяем направление flexbox на строку */
+    width: auto;
+    background: linear-gradient(to bottom right, #ffffff, #cccccc);
+    box-shadow: 10px 10px 20px #aaaaaa;
+    border-radius: 10px;
+}
+
+.content_review_child {
+    display: flex;
+    width: 50%; /* Ширина каждого столбца - 50% */
+    justify-content: space-around; /* Распределение по вертикали */
+    align-items: flex-start; /* Выравнивание в начало по вертикали */
+    padding: 10px; /* Добавляем отступы*/
+    box-sizing: border-box; /* Учитываем padding в расчете ширины*/
+    background: linear-gradient(to bottom right, #ffffff, #cccccc);
+    box-shadow: 10px 10px 20px #aaaaaa;
+    border-radius: 10px;
 }

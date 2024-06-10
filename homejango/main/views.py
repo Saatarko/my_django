@@ -8,7 +8,6 @@ from .models import Reviews
 
 # Create your views here.
 def index(request):
-
     date = {
         'title': 'Домашняя страница',
     }
@@ -24,8 +23,16 @@ def contacts(request):
 
 
 def reviews(request):
-    reviews = Reviews.objects.all()
+
+
+    if request.POST:
+        temp_name = request.POST['name']
+        temp_description = request.POST['description']
+        reviews_obj = Reviews(name=temp_name, description=temp_description)
+        reviews_obj.save()
+
     form = ReviewsForms()
+    reviews = Reviews.objects.all()
     context = {
         'reviews': reviews,
         'form': form

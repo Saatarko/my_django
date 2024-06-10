@@ -1,0 +1,24 @@
+html
+
+<aside id="news">
+        </aside>
+
+
+css
+
+
+#news {
+    float: right;
+    width: 10%;
+    padding: 1.0%;
+    height: 100vh;
+    color: #0F0F0F;
+    border-left: 5px solid #4d4d4d; /* Изменено на border-left */
+}
+
+
+         {% if user.is_authenticated %}
+
+                    {% endif %}
+
+

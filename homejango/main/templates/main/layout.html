@@ -18,7 +18,7 @@
                    {% if user.is_authenticated %}
                 <p>Добро пожаловать <a href="{% url 'users:profile' %}">{{user.username}}</a></p>
                 {% endif %}
-        <h3>Навигация</h3>
+        <h3 class="nav_h">Навигация</h3>
         <nav>
             <ul>
                 <li><a href="{% url 'home' %}"><i class="fa-solid fa-house-user"></i> Главная</a></li>
@@ -47,8 +47,7 @@
         </nav>
     </div>
 </aside>
-    <aside id="news">
-        </aside>
+
     <main>
 
      {% block content %} {% endblock %}
