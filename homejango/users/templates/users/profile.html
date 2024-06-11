@@ -2,8 +2,10 @@
 {% load static %}
 
 {% block content %}
-<h1>Профиль</h1>
+<h1 class="main_h">Профиль</h1>
 
+
+<div class="content_review">
 <div class="form-error">{{ from.non_field_errors }}</div>
 <form method="post">
 {% csrf_token %}
@@ -14,8 +16,9 @@
 {{ pet_form.as_p }}
 {% endfor %}
 
-<p><button type="submit">Сохранить</button></p>
+<p><button class="btn btn-outline-dark" type="submit">Сохранить</button></p>
 
 
 </form>
+</div>
 {% endblock %}

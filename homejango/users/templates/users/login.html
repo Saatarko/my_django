@@ -2,15 +2,15 @@
 {% load static %}
 
 {% block content %}
-<h1>Авторизация</h1>
-
+<h1 class="main_h">Авторизация</h1>
+<div class="content_review">
 <div class="form-error">{{ from.non_field_errors }}</div>
 <form method="post">
 {% csrf_token %}
 {{ form.as_p}}
 
-<p><button type="submit">Войти</button></p>
-
+<p><button class="btn btn-outline-dark" type="submit">Войти</button></p>
+</div>
 
 </form>
 {% endblock %}
