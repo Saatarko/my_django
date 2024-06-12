@@ -1,8 +1,9 @@
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-from django.forms import inlineformset_factory
+from django.forms import inlineformset_factory, formset_factory
 
+from service.forms import PetForms, PetsFormSet
 from service.models import Clients, Pets
 
 
@@ -63,19 +64,19 @@ class ProfileUserForm(forms.ModelForm):
                                widget=forms.TextInput(attrs={'class': 'form-input'}))
     email = forms.EmailField(disabled=True, label='email',
                              widget=forms.TextInput(attrs={'class': 'form-input'}))
+    pets_formset = PetsFormSet
 
     class Meta:
-        # так делать правильнее чем через поля формы т.к страхует при изменения модели юзера
         model = get_user_model()
         fields = ['username', 'email', 'first_name', 'last_name', 'phone']
         labels = {
             'first_name': 'Имя',
             'last_name': 'Фамилия',
             'phone': 'Телефон'
-
         }
 
 
-PetsFormSet = inlineformset_factory(
-    Clients, Pets, fields=('nickname', 'birthdate', 'breed', 'color'), extra=1, can_delete=True
-)
+
+# PetsFormSet = inlineformset_factory(
+#     Clients, Pets, fields=('nickname', 'birthdate', 'breed', 'color', 'id'), extra=1, can_delete=True,
+# )

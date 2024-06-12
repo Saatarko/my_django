@@ -1,0 +1,29 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+
+{% block content %}
+<h1 class="main_h">Добавление питомца</h1>
+<div class="content_review">
+            <div class="form-error">{{ from.non_field_errors }}</div>
+    <form method="post">
+    {% csrf_token %}
+        <div class="block_prof_child2">
+        <p class="text_bold">{{ pets.nickname.label_tag}}</p>
+        <p class="text_bold">{{ pets.birthdate.label_tag}}</p>
+           <p class="text_bold"> {{ pets.breed.label_tag}}</p>
+            <p class="text_bold">{{ pets.color.label_tag}}</p>
+               </div>
+            <br>
+            <div class="block_prof_child2">
+        <p>{{ pets.nickname}}</p>
+         <p><input type="date" id="birthdate" name="birthdate" value="{{ pets.birthdate|date:'Y-m-d' }}"></p>
+           <p> {{ pets.breed}}</p>
+            <p>{{ pets.color}}</p>
+
+
+    <p><button class="btn btn-outline-dark" type="submit">Добавить питомца</button></p>
+    </form>
+</div>
+
+
+{% endblock %}

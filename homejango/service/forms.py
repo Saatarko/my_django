@@ -1,11 +1,10 @@
 from .models import Procedure, Clients, Pets, Order
-from django.forms import ModelForm, TextInput, NumberInput, DateInput, TimeInput
+from django.forms import ModelForm, TextInput, NumberInput, DateInput, TimeInput, formset_factory
 
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.forms import inlineformset_factory
-
 
 
 class ClientsForms(ModelForm):
@@ -30,10 +29,13 @@ class ClientsForms(ModelForm):
         }
 
 
+PetForm = forms.ModelForm
+
+
 class PetForms(ModelForm):
     class Meta:
         model = Pets
-        fields = ['nickname', 'birthdate', 'breed', 'color']
+        fields = ['nickname', 'birthdate', 'breed', 'color', 'id']
 
         widgets = {
             'nickname': TextInput(attrs={
@@ -51,9 +53,12 @@ class PetForms(ModelForm):
             'color': TextInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'Укажите окрас питомца',
-            })
-
+            }),
+            'client': forms.HiddenInput(),
         }
+
+
+PetsFormSet = formset_factory(PetForm, extra=1, can_delete=True)
 
 
 class OrderForms(ModelForm):

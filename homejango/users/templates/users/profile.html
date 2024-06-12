@@ -29,35 +29,44 @@
            <p> {{ form.first_name}}</p>
             <p>{{ form.last_name}}</p>
            <p> {{ form.phone}} </p>
+                    <p><button class="btn btn-outline-dark" type="submit">Сохранить</button></p>
+                             <a href="{% url 'users:profile_add_pet' %}">
+                                <button type="button" class="btn btn-outline-dark blink-text">Добавить питомца</button>
+                              </a>
                  </div>
         </div>
         <p class="block_prof_child text_bold text_big_size">Ваши питомцы</p>
         <div class="block_prof_child">
+
               <div class="block_prof_child3">
+                   {% if pets %}
                     <p class="text_bold"> Кличка питомца </p>
                     <p class="text_bold"> Дата рождения</p>
                    <p class="text_bold"> Порода</p>
                     <p class="text_bold">Окрас</p>
-
-               </div>
-               <div class="block_prof_child3">
-                     <tr>{{ pets_formset.management_form }}
-                    {% for pet_form in pets_formset %}
-                    <p>{{ pet_form.nickname }}</p>
-                   <p> {{ pet_form.birthdate }}</p>
-                   <p> {{ pet_form.breed }}</p>
-                   <p> {{ pet_form.color }}</p>
-                        <td>
-                                  <span title="Удалить" data-toggle="tooltip" data-placement="top">
-                                    {{ pet_form.DELETE }}
-                                  </span>
-                        </td>
+                </div>
+             <div class="block_prof_child3">
+                    {% for el in pets %}
+                    <p>{{ el.nickname }}</p>
+                   <p> {{ el.birthdate }}</p>
+                   <p> {{ el.breed }}</p>
+                   <p> {{ el.color }}</p>
+                             <a href="{% url 'users:profile_delete' el.id %}">
+                                <button type="button" class="btn btn-outline-dark blink-text">Удалить</button>
+                              </a>
+                            <a href="{% url 'users:profile_edit_pet' el.id %}">
+                                <button type="button" class="btn btn-outline-dark blink-text">Отредактировать</button>
+                              </a>
                          <br>
-                     </tr>
 
                     {% endfor %}
+                 </div>
+                    {% else %}
+                 <p>Вы пока не добавили ни одного питомца</p>
+                     {% endif %}
+
                 </div>
-            <p><button class="btn btn-outline-dark" type="submit">Сохранить</button></p>
+
         </div>
 
 

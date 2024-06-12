@@ -4,10 +4,11 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, UpdateView
 
+from service.forms import PetForms
 from service.models import Clients, Pets
 from .forms import LoginUserForm, RegisterUserForm
 
@@ -90,12 +91,12 @@ def register(request):
 def profile_update(request):
     user = request.user
     client, created = Clients.objects.get_or_create(user=user)
+    client_id = client.id
     form = ProfileUserForm(request.POST or None, instance=user)
-    pets_formset = PetsFormSet(request.POST or None, instance=client)
+    pets = Pets.objects.filter(clients=client_id)
 
     if request.method == 'POST':
         if form.is_valid():
-
             # Обновление данных клиента
 
             client.first_name = form.cleaned_data['first_name']
@@ -108,40 +109,54 @@ def profile_update(request):
             user.phone = form.cleaned_data['phone']
             user.save()
 
-            for pet_form in pets_formset:
-                if pet_form.is_valid():
-                    pet_id = pet_form.cleaned_data.get('id', None)  # Получаем id питомца из данных формы
-
-                    for pet_form in pets_formset:
-                        if 'DELETE' in pet_form.data and pet_form.data['DELETE'][0] == 'on':
-                            pet_id = pet_form.cleaned_data.get('id', None)
-                            if pet_id:
-                                try:
-                                    pet = Pets.objects.get(id=pet_id)
-                                    pet.delete()
-                                except Pets.DoesNotExist:
-                                    pass
-                        else:
-
-                            if not pet_id:  # Если id отсутствует, оставляем форму для создания нового питомца
-                                continue
-
-                            try:
-                                pet = Pets.objects.get(pk=pet_id)
-                                pet.nickname = pet_form.cleaned_data.get('nickname')
-                                pet.birthdate = pet_form.cleaned_data.get('birthdate')
-                                pet.breed = pet_form.cleaned_data.get('breed')
-                                pet.color = pet_form.cleaned_data.get('color')
-                                pet.save()  # Обновляем питомца
-                            except Pets.DoesNotExist:
-                                pass
-
     return render(request, 'users/profile.html', {
         'form': form,
-        'pets_formset': pets_formset,
+        'pets': pets,
         'title': 'Профайл'
     })
 
 
 def register_done(request):
     return render(request, 'users/register_done.html')
+
+
+def profile_delete(request, temp_id):
+    pets = Pets.objects.filter(id=temp_id)
+    pets.delete()
+    return redirect('users:profile')
+
+
+def profile_add_pet(request):
+    if request.method == 'POST':
+        pets = PetForms(request.POST)
+        if pets.is_valid():
+            user = request.user
+            client, created = Clients.objects.get_or_create(user=user)
+            pet = pets.save(commit=False)
+            pet.clients = client  # Присваиваем объект client к полю clients
+            pet.save()
+            return redirect('users:profile')
+    else:
+        pets = PetForms()
+
+    return render(request, 'users/add_pet.html', {
+        'pets': pets,
+    })
+
+
+def profile_edit_pet(request, temp_id):
+    if request.method == 'POST':
+        pets = PetForms(request.POST)
+        if pets.is_valid():
+            pets.save()
+            return redirect('users:profile')
+    else:
+        temp_pet = get_object_or_404(Pets, id=temp_id)
+        value_date = temp_pet.birthdate.isoformat()
+
+        pets = PetForms(instance=temp_pet)
+
+    return render(request, 'users/add_pet.html', {
+        'pets': pets,
+        'value_date': value_date,
+    })

@@ -405,7 +405,7 @@ display: flex;
 
 .block_prof_child2 {
     display: flex;
-    justify-content: center; /* Выравнивание контента по центру горизонтально */
+    justify-content: left; /* Выравнивание контента по центру горизонтально */
     align-items: center; /* Выравнивание контента по центру вертикально */
     width: 100%; /* Ширина блока равна ширине родительского блока .block_prof_child */
     box-sizing: border-box; /* Учитываем padding в расчете ширины */
@@ -419,11 +419,8 @@ display: flex;
 .block_prof_child3 {
     display: flex;
     flex-wrap: wrap;
-    width: 900px; /* Ширина блока равна ширине родительского блока .block_prof_child */
+    justify-content: left;
+    width: 100%; /* Ширина блока равна ширине родительского блока .block_prof_child */
     box-sizing: border-box; /* Учитываем padding в расчете ширины */
 }
 
-.block_prof_child3 p {
-    width: 200px;
-    height: 20px;
-}
