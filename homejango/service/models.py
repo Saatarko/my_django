@@ -88,3 +88,5 @@ class Vacations(models.Model):
     class Meta:  # даем название таблицы в админке
         verbose_name = 'Отпуска/Vacations'
         verbose_name_plural = 'Отпуска/Vacations'
+
+

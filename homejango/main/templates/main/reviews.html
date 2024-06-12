@@ -10,6 +10,7 @@
         {% for el in reviews %}
 
                     <div>
+                        <p class="text_bold"> Отзыв:</p>
                         <p class="text_bold"> {{el.name}}</p> <br>
                         {{el.description}}
                          {% if user.username == "Modetaror" or user.username == "Saatarko"%}
@@ -20,14 +21,14 @@
 
 
         {% else %}
-            <p>В данный момент отзывов нет</p>
+            <p class="text_bold">В данный момент отзывов нет</p>
         {% endif %}
 
         </div>
 
         {% if user.is_authenticated %}
             <div class="content_review_child2">
-                <p>Оставить свой отзыв</p>
+                <p class="text_bold">Оставить свой отзыв:</p>
         <form method="post">
             {% csrf_token %}
                        <div class="form-group">

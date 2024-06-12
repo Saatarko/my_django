@@ -8,14 +8,13 @@ from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, UpdateView
 
-from service.models import Clients
+from service.models import Clients, Pets
 from .forms import LoginUserForm, RegisterUserForm
 
 from .forms import ProfileUserForm, PetsFormSet
 
+
 # Create your views here.
-
-
 
 
 # def login_user(request):       # логин через функцию
@@ -95,19 +94,47 @@ def profile_update(request):
     pets_formset = PetsFormSet(request.POST or None, instance=client)
 
     if request.method == 'POST':
-        if form.is_valid() and pets_formset.is_valid():
-            user = form.save()
+        if form.is_valid():
 
             # Обновление данных клиента
+
             client.first_name = form.cleaned_data['first_name']
             client.last_name = form.cleaned_data['last_name']
             client.phone = form.cleaned_data['phone']
             client.save()
 
-            # Сохранение данных о домашних животных
-            pets_formset.save()
+            user.first_name = form.cleaned_data['first_name']
+            user.last_name = form.cleaned_data['last_name']
+            user.phone = form.cleaned_data['phone']
+            user.save()
 
-            return redirect('users:profile')
+            for pet_form in pets_formset:
+                if pet_form.is_valid():
+                    pet_id = pet_form.cleaned_data.get('id', None)  # Получаем id питомца из данных формы
+
+                    for pet_form in pets_formset:
+                        if 'DELETE' in pet_form.data and pet_form.data['DELETE'][0] == 'on':
+                            pet_id = pet_form.cleaned_data.get('id', None)
+                            if pet_id:
+                                try:
+                                    pet = Pets.objects.get(id=pet_id)
+                                    pet.delete()
+                                except Pets.DoesNotExist:
+                                    pass
+                        else:
+
+                            if not pet_id:  # Если id отсутствует, оставляем форму для создания нового питомца
+                                continue
+
+                            try:
+                                pet = Pets.objects.get(pk=pet_id)
+                                pet.nickname = pet_form.cleaned_data.get('nickname')
+                                pet.birthdate = pet_form.cleaned_data.get('birthdate')
+                                pet.breed = pet_form.cleaned_data.get('breed')
+                                pet.color = pet_form.cleaned_data.get('color')
+                                pet.save()  # Обновляем питомца
+                            except Pets.DoesNotExist:
+                                pass
 
     return render(request, 'users/profile.html', {
         'form': form,

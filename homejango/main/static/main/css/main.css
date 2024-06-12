@@ -296,6 +296,29 @@ color: #000;
     flex-direction: column;
 }
 
+.content_review2 {
+    display: flex;
+    margin-left: 17%; /* Отступ для навигационной панели */
+    flex-direction: row; /* Блоки будут расположены горизонтально */
+    width: calc(100% - 17%); /* Вычитаем отступ из общей ширины */
+    background: linear-gradient(to bottom right, #ffffff, #cccccc);
+    box-shadow: 10px 10px 20px #aaaaaa;
+    border-radius: 10px;
+    }
+
+    .content_review2_child3 {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row; /* Изменяем направление flexbox на строку для содержимого */
+        width: calc(50% - 20px); /* Вычитаем padding из ширины каждого блока */
+        justify-content: space-around; /* Распределение по горизонтали */
+        align-items: flex-start; /* Выравнивание в начало по горизонтали */
+        padding: 10px; /* Добавляем отступы */
+        box-sizing: border-box; /* Учитываем padding в расчете ширины */
+        background: linear-gradient(to bottom right, #ffffff, #cccccc);
+        box-shadow: 10px 10px 20px #aaaaaa;
+        border-radius: 10px;
+    }
 .google_map {
 margin-left: 17%;
 position: relative;
@@ -317,6 +340,10 @@ border: 0;
 
 }
 
+.text_big_size {
+    font-size: 24px;
+
+}
 .text_bold_center {
     font-weight: bold;
     text-align: center;
@@ -347,4 +374,56 @@ border: 0;
 
 .blink-text {
   animation: blink 2s infinite; /* Длительность анимации 3 секунда и бесконечное повторение */
+}
+
+
+.block_prof {
+    display: flex;
+    margin-left: 17%; /* Отступ для навигационной панели */
+    flex-direction: column; /* Блоки будут расположены горизонтально */
+    width: 80%; /* Вычитаем отступ из общей ширины */
+
+    }
+
+    .block_prof_child {
+display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    width: 100%; /* Ширина блока равна ширине родительского блока .block_prof */
+    justify-content: center; /* Выравнивание контента по центру горизонтально */
+    align-items: flex-start;
+    padding: 10px;
+    box-sizing: border-box;
+    background: linear-gradient(to bottom right, #ffffff, #cccccc);
+    box-shadow: 10px 10px 20px #aaaaaa;
+    border-radius: 10px;
+    }
+
+    .block_prof_child tr {
+        margin-bottom: 10px; /* Пример отступа в 10px между строками */
+        }
+
+.block_prof_child2 {
+    display: flex;
+    justify-content: center; /* Выравнивание контента по центру горизонтально */
+    align-items: center; /* Выравнивание контента по центру вертикально */
+    width: 100%; /* Ширина блока равна ширине родительского блока .block_prof_child */
+    box-sizing: border-box; /* Учитываем padding в расчете ширины */
+}
+
+.block_prof_child2 p {
+    width: 200px;
+    height: 20px;
+}
+
+.block_prof_child3 {
+    display: flex;
+    flex-wrap: wrap;
+    width: 900px; /* Ширина блока равна ширине родительского блока .block_prof_child */
+    box-sizing: border-box; /* Учитываем padding в расчете ширины */
+}
+
+.block_prof_child3 p {
+    width: 200px;
+    height: 20px;
 }
