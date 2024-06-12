@@ -2,7 +2,8 @@
 {% load static %}
 
 {% block content %}
-    <h1>Наши процедуры</h1>
+    <h1 class="main_h">Наши процедуры</h1>
+<div class="content_review">
     <section class="procedure_list">
         {% for el in procedure %}
             {% if el.name_procedure %}
@@ -19,4 +20,5 @@
             {% endif %}
         {% endfor %}
     </section>
+ </div>
 {% endblock %}

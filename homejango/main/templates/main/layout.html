@@ -16,7 +16,7 @@
     <div class="nav_panel">
         <img src="{% static 'main/img/logo.jpg' %}" alt="Логотип">
                    {% if user.is_authenticated %}
-                <p>Добро пожаловать <a href="{% url 'users:profile' %}">{{user.username}}</a></p>
+                <p> <a href="{% url 'users:profile' %}">Добро пожаловать {{user.username}}</a></p>
                 {% endif %}
         <h3 class="nav_h">Навигация</h3>
         <nav>

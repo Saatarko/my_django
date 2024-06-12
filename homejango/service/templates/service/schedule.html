@@ -2,8 +2,9 @@
 {% load static %}
 
 {% block content %}
-<h1>Типа расписание работы сотрудников</h1>
+<h1 class="main_h">Типа расписание работы сотрудников</h1>
 
+<div class="content_review">
 <div class="form-error">{{ from.non_field_errors }}</div>
 <form method="post">
 {% csrf_token %}
@@ -14,9 +15,9 @@
     {% endfor %}
 </select>
 
- <button type="submit" name="submit_button"> {{el.nickname}} Фильтровать</button>
+ <button type="submit" class="btn btn-outline-dark" name="submit_button"> {{el.nickname}} Фильтровать</button>
   <a href="{% url 'schedule' %}">
-    <button type="button" class="btn btn-outline-success">Сбросить фильтры</button>
+    <button type="button" class="btn btn-outline-dark">Сбросить фильтры</button>
 </a>
 
 
@@ -30,5 +31,5 @@
   <p>Порода: {{appointment.clients.breed }}</p>
   <p>Доктор: {{appointment.doctor.name }}</p> <
 {% endfor %}
-
+</div>
 {% endblock %}

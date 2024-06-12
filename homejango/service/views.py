@@ -64,21 +64,29 @@ def schedule(request):
     return render(request, 'service/schedule.html', context)
 
 
-# def procedure_named(request, name):
-#     result = Procedure.objects.get(name_procedure=name)
-#     return render(request, 'service/procedure_name.html', {'result': result})
+def procedure_named(request, name):
+    result = Procedure.objects.get(name_procedure=name)
+    current_user = request.user
+    client = Clients.objects.get(first_name=current_user.first_name, last_name=current_user.last_name)
+    client_id = client.id
+    pets_formset = Pets.objects.filter(clients=client_id)
+    context= {
+        'result': result,
+        'pets_formset': pets_formset,
+    }
+    return render(request, 'service/procedure_name.html', context)
 
-class ProcedureNameDetailView(DetailView):
-    model = Procedure
-    template_name = 'service/procedure_name.html'
-    context_object_name = 'result'
-    slug_field = 'name_procedure'  # Указываем поле, которое будет использоваться как слаг
-    slug_url_kwarg = 'name'  # Указываем имя аргумента из URL
-
-    def get_queryset(self):
-        # Фильтрация по условию name_procedure=name
-        name = self.kwargs.get('name')
-        return Procedure.objects.filter(name_procedure=name)
+# class ProcedureNameDetailView(DetailView):
+#     model = Procedure
+#     template_name = 'service/procedure_name.html'
+#     context_object_name = 'result'
+#     slug_field = 'name_procedure'  # Указываем поле, которое будет использоваться как слаг
+#     slug_url_kwarg = 'name'  # Указываем имя аргумента из URL
+#
+#     def get_queryset(self):
+#         # Фильтрация по условию name_procedure=name
+#         name = self.kwargs.get('name')
+#         return Procedure.objects.filter(name_procedure=name)
 
 
 def order(request, name, additional_param):

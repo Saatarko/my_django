@@ -2,30 +2,33 @@
 
 
 {% block content %}
-<h1>Отзывы</h1>
+<h1 class="main_h">Отзывы</h1>
 
         <div class="content_review">
-            <div class="content_review_child">
+            <div class="content_review_child2">
         {% if reviews %}
         {% for el in reviews %}
 
                     <div>
-                        {{el.name}}
+                        <p class="text_bold"> Отзыв:</p>
+                        <p class="text_bold"> {{el.name}}</p> <br>
                         {{el.description}}
-                        <a href="{% url 'reviews_delete' el.id %}"> <button class="btn btn-outline-success">Удалить отзыв</button></a>
+                         {% if user.username == "Modetaror" or user.username == "Saatarko"%}
+                        <a href="{% url 'reviews_delete' el.id %}"> <button class="btn btn-outline-dark">Удалить отзыв</button></a>
+                         {% endif %}
                     </div>
         {% endfor %}
 
 
         {% else %}
-            <p>В данный момент отзывов нет</p>
+            <p class="text_bold">В данный момент отзывов нет</p>
         {% endif %}
 
         </div>
 
         {% if user.is_authenticated %}
-            <div class="content_review_child">
-                <p>Оставить свой отзыв</p>
+            <div class="content_review_child2">
+                <p class="text_bold">Оставить свой отзыв:</p>
         <form method="post">
             {% csrf_token %}
                        <div class="form-group">
@@ -38,10 +41,13 @@
                     {{ form.description }}
                     {{ form.description.errors }}
                 </div>
-                 <button type="submit" class="btn btn-primary">Отправить</button>
+                 <button type="submit" class="btn btn-outline-dark">Отправить</button>
 
            </form>
                 </div>
+       {% else %}
+             <p>Чтобы оставить свой отзыв, необходимо зарегистрироваться! Если Вы уже зарегистрировалисьвойдите в свою учетную запись. </p>
+
        {% endif %}
         </div>
 {% endblock %}

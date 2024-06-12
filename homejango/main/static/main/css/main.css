@@ -1,23 +1,24 @@
 
-
-
+{% load static %}
 #navigation-panel {
     float: left;
     width: 17%;
     padding: 1.0%;
-    height: 100vh; /* Используем высоту экрана (100vh) */
-    position: relative; /* Задаем позицию relative для элемента-родителя */
-    color: #0F0F0F;
-    border-right: 5px solid #4d4d4d
-
-}
-#navigation-panel::after {
-    content: "";
-    position: absolute;
+    height: 100%; /* Используем высоту экрана (100vh) */
+    position: fixed; /* Задаем позицию relative для элемента-родителя */
     top: 0;
     bottom: 0;
+    color: #0F0F0F;
+    max-width: 17%; /* Добавляем максимальную ширину */
+    border-right: 5px solid #4d4d4d;
+}
+
+#navigation-panel .border-line {
+    position: absolute;
+    top: 0;
     right: 0;
-    width: 2px; /* Ширина вашей границы */
+    bottom: 0;
+    width: 5px; /* Ширина вашей границы */
     background-color: #4d4d4d; /* Цвет вашей границы */
 }
 
@@ -52,8 +53,31 @@
     font-size: 18px;
 }
 
+.nav_panel p {
+    display: block;
+    padding: 15px;
+    list-style-type: none;
+    width: auto; /* Изменяем ширину на auto, чтобы она подстраивалась под содержимое */
+    background: linear-gradient(to bottom right, #ffffff, #cccccc);
+    box-shadow: 10px 10px 20px #aaaaaa;
+    border-radius: 10px;
+    font-size: 18px;
+    transition: transform .6s ease;
+    padding: 2px;
+    margin-bottom: 5px;
+    border-bottom: 1px solid #000;
+    text-align: center;
+    list-style-type: none;
 
-.nav_panel ul li {
+}
+
+.nav_panel p a{
+
+    color: #0F0F0F;
+
+}
+
+.nav_panel ul li{
     transition: transform .6s ease;
     padding: 2px;
     margin-bottom: 5px;
@@ -66,7 +90,7 @@
     color: #0F0F0F;
 }
 
-.nav_panel ul li:hover, .nav_panel ul a:hover {
+.nav_panel ul li:hover, .nav_panel ul a:hover, .nav_panel p:hover {
     transform: scale(1.1);
 }
 
@@ -160,18 +184,21 @@
 
 .main_text {
     width: 100%; /* Ширина ссылки теперь равна ширине родительского элемента */
+
     border: 1px solid #333;
     padding: 2px 12px;
     box-shadow: 10px 10px 20px #aaaaaa;
     background: linear-gradient(to bottom right, #ffffff, #cccccc);
     border-radius: 10px;
+    text-align: justify;
 
 }
 .content {
     width: 80%; /* Ширина контента, чтобы занять оставшееся место между ASIDE */
-    float: left; /* Можно удалить это свойство, если используем flexbox */
+    margin-left: 17%; /* Устанавливаем отступ слева, равный ширине навигационной панели */
     padding: 1.0%;
-    height: 100vh;
+    padding: 1.0%;
+    height: auto;
     color: #0F0F0F;
     display: flex; /* Используем flexbox */
     flex-direction: column; /* Направление flexbox - столбец */
@@ -193,24 +220,26 @@ flex: 1; /* Расширяет текст на оставшееся простр
 }
 
 .main_h {
-
+    margin-left: 17%;
     text-align: center; /* Выравниваем текст по центру */
-    margin: 0; /* Убираем внешние отступы у заголовка */
-    padding: 20px 0; /* Добавляем внутренние отступы для отделения заголовка от ASIDE и контента */
-    width: 100%; /* Ширина заголовка равна ширине контейнера */
+    padding: 0; /* Добавляем внутренние отступы для отделения заголовка от ASIDE и контента */
+    width: calc(100% - 17%)
     font-family: 'Montserrat', sans-serif;
     font-size: 2.5em;
     font-weight: bold;
-    color: #333; /* Цвет текста */
-    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2); /* Тень текста */
+    color: #fff; /* Белый цвет текста */
+    -webkit-text-stroke: 1px #666; /* Серая обводка текста */
+
+    text-shadow: 2px 2px 0 #ccc; /* Бело-серая тень вниз и вправо */
 }
 
- body {
-            background-color: #E4FFFF;
-            margin: 0;
-            padding: 0;
-        }
 
+body {
+    background-image: url("/static/main/img/background.jfif");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
 
 .nav_h {
 
@@ -221,18 +250,26 @@ flex: 1; /* Расширяет текст на оставшееся простр
     font-family: 'Montserrat', sans-serif;
     font-size: 1.5em;
     font-weight: bold;
-    color: #333; /* Цвет текста */
-    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2); /* Тень текста */
+    color: #fff; /* Белый цвет текста */
+    -webkit-text-stroke: 1px #666; /* Серая обводка текста */
+    text-shadow: 2px 2px 0 #ccc; /* Бело-серая тень вниз и вправо */
 }
 
 .content_review {
     display: flex;
+    margin-left: 17%;
     flex-direction: row; /* Изменяем направление flexbox на строку */
     width: auto;
     background: linear-gradient(to bottom right, #ffffff, #cccccc);
     box-shadow: 10px 10px 20px #aaaaaa;
     border-radius: 10px;
+
 }
+
+.content_review a {
+color: #000;
+}
+
 
 .content_review_child {
     display: flex;
@@ -244,4 +281,149 @@ flex: 1; /* Расширяет текст на оставшееся простр
     background: linear-gradient(to bottom right, #ffffff, #cccccc);
     box-shadow: 10px 10px 20px #aaaaaa;
     border-radius: 10px;
+}
+
+.content_review_child2 {
+    display: flex;
+    width: 50%; /* Ширина каждого столбца - 50% */
+    justify-content: space-around; /* Распределение по вертикали */
+    align-items: flex-start; /* Выравнивание в начало по вертикали */
+    padding: 10px; /* Добавляем отступы*/
+    box-sizing: border-box; /* Учитываем padding в расчете ширины*/
+    background: linear-gradient(to bottom right, #ffffff, #cccccc);
+    box-shadow: 10px 10px 20px #aaaaaa;
+    border-radius: 10px;
+    flex-direction: column;
+}
+
+.content_review2 {
+    display: flex;
+    margin-left: 17%; /* Отступ для навигационной панели */
+    flex-direction: row; /* Блоки будут расположены горизонтально */
+    width: calc(100% - 17%); /* Вычитаем отступ из общей ширины */
+    background: linear-gradient(to bottom right, #ffffff, #cccccc);
+    box-shadow: 10px 10px 20px #aaaaaa;
+    border-radius: 10px;
+    }
+
+    .content_review2_child3 {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row; /* Изменяем направление flexbox на строку для содержимого */
+        width: calc(50% - 20px); /* Вычитаем padding из ширины каждого блока */
+        justify-content: space-around; /* Распределение по горизонтали */
+        align-items: flex-start; /* Выравнивание в начало по горизонтали */
+        padding: 10px; /* Добавляем отступы */
+        box-sizing: border-box; /* Учитываем padding в расчете ширины */
+        background: linear-gradient(to bottom right, #ffffff, #cccccc);
+        box-shadow: 10px 10px 20px #aaaaaa;
+        border-radius: 10px;
+    }
+.google_map {
+margin-left: 17%;
+position: relative;
+width: 80%;
+height: 80vh; /* 80% от высоты экрана */
+overflow: hidden;
+display: grid;
+}
+
+.google_map iframe {
+grid-area: 1 / 1 / 2 / 2;
+width: 100%;
+height: 100%;
+border: 0;
+}
+
+.text_bold {
+    font-weight: bold;
+
+}
+
+.text_big_size {
+    font-size: 24px;
+
+}
+.text_bold_center {
+    font-weight: bold;
+    text-align: center;
+}
+
+
+@keyframes pulse {
+  0% {
+    font-size: 15px; /* начальный размер шрифта */
+  }
+  50% {
+    font-size: 17px; /* максимальный размер шрифта */
+  }
+  100% {
+    font-size: 15px; /* возвращение к начальному размеру шрифта */
+  }
+}
+
+.pulse-text {
+  animation: pulse 2s infinite; /* Длительность анимации 2 секунды и бесконечное повторение */
+}
+
+@keyframes blink {
+  0% { opacity: 1; } /* начальная прозрачность */
+  50% { opacity: 0; } /* прозрачность полностью пропадает */
+  100% { opacity: 1; } /* возвращение к полной прозрачности */
+}
+
+.blink-text {
+  animation: blink 2s infinite; /* Длительность анимации 3 секунда и бесконечное повторение */
+}
+
+
+.block_prof {
+    display: flex;
+    margin-left: 17%; /* Отступ для навигационной панели */
+    flex-direction: column; /* Блоки будут расположены горизонтально */
+    width: 80%; /* Вычитаем отступ из общей ширины */
+
+    }
+
+    .block_prof_child {
+display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    width: 100%; /* Ширина блока равна ширине родительского блока .block_prof */
+    justify-content: center; /* Выравнивание контента по центру горизонтально */
+    align-items: flex-start;
+    padding: 10px;
+    box-sizing: border-box;
+    background: linear-gradient(to bottom right, #ffffff, #cccccc);
+    box-shadow: 10px 10px 20px #aaaaaa;
+    border-radius: 10px;
+    }
+
+    .block_prof_child tr {
+        margin-bottom: 10px; /* Пример отступа в 10px между строками */
+        }
+
+.block_prof_child2 {
+    display: flex;
+    justify-content: center; /* Выравнивание контента по центру горизонтально */
+    align-items: center; /* Выравнивание контента по центру вертикально */
+    width: 100%; /* Ширина блока равна ширине родительского блока .block_prof_child */
+    box-sizing: border-box; /* Учитываем padding в расчете ширины */
+}
+
+.block_prof_child2 p {
+    width: 200px;
+    height: 20px;
+}
+
+.block_prof_child3 {
+    display: flex;
+    flex-wrap: wrap;
+    width: 900px; /* Ширина блока равна ширине родительского блока .block_prof_child */
+    box-sizing: border-box; /* Учитываем padding в расчете ширины */
+}
+
+.block_prof_child3 p {
+    width: 200px;
+    height: 20px;
 }

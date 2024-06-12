@@ -2,15 +2,15 @@
 {% load static %}
 
 {% block content %}
-    <h1>Запись</h1>
-
+    <h1 class="main_h">Запись на прием</h1>
+<div class="content_review">
     <section class="procedure_list">
         <form method="post">
             {% csrf_token %}
             <div>
                  <label>Выберите дату приема!</label>
                 {{form_order.date_order}}
-                <button type="submit" class="btn btn-outline-success"> Проверить доступное время приема</button>
+                <button type="submit" class="btn btn-outline-dark"> Проверить доступное время приема</button>
             </div>
             {% if step1 is True %}
                              <label>Выберите время приема!</label>
@@ -20,7 +20,7 @@
                                 {% endfor %}
 
                             </select>
-                             <button type="submit" class="btn btn-outline-success"> Записаться</button>
+                             <button type="submit" class="btn btn-outline-dark"> Записаться</button>
             {% endif %}
 
                 {% if step2 is True %}
@@ -31,10 +31,10 @@
 
 
                     {{ error }}
-                 <button class="btn btn-outline-success" type="submit">Отправить заявку</button>
+                 <button class="btn btn-outline-dark" type="submit">Отправить заявку</button>
                 {% endif %}
         </form>
      </section>
-
+</div>
 {% endblock %}
 
