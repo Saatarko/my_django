@@ -3,8 +3,8 @@ from django.dispatch import receiver
 
 from .models import Order
 
-@receiver(post_save, sender=Order)
-def send_telegram_message(sender, instance, created, **kwargs):
-    if created:
-
-        send_telegram_message(instance)
+# @receiver(post_save, sender=Order)
+# def send_telegram_message(sender, instance, created, **kwargs):
+#     if created:
+#
+#         send_telegram_message(instance)

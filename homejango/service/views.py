@@ -239,9 +239,9 @@ def order_confirm(request, procedure_id, client_id, date_temp, time_temp):
     return render(request, 'service/order_confirm.html', date)
 
 
-def send_telegram_message(order):
-    bot = telegram.Bot(token=settings.TELEGRAM_BOT_TOKEN)
-    chat_id = settings.TELEGRAM_CHANNEL_ID
-    message = f"Новый заказ:\nДата: {order.date_order}\nВремя: {order.time_order}\nПроцедура: {order.procedure.name_procedure}\nКлиент: {order.clients.name}\nДоктор: {order.doctor.name}"
-    bot.send_message(chat_id=chat_id, text=message)
-
+# def send_telegram_message(order):
+#     bot = telegram.Bot(token=settings.TELEGRAM_BOT_TOKEN)
+#     chat_id = settings.TELEGRAM_CHANNEL_ID
+#     message = f"Новый заказ:\nДата: {order.date_order}\nВремя: {order.time_order}\nПроцедура: {order.procedure.name_procedure}\nКлиент: {order.clients.name}\nДоктор: {order.doctor.name}"
+#     bot.send_message(chat_id=chat_id, text=message)
+#

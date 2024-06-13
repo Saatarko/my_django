@@ -153,5 +153,3 @@ LOGIN_URL = 'users:login'  #определяет куда послать пол�
 AUTH_USER_MODEL = 'users.User'
 
 
-TELEGRAM_BOT_TOKEN = "6574088819:AAGCI0fWRLqQx033FKAZ9qWvTzx16SEH-Z8"
-TELEGRAM_CHANNEL_ID = -4266542112
