@@ -53,3 +53,10 @@ def reviews_delete(request, id):
 
     }
     return render(request, 'main/reviews.html', context)
+
+
+def personal_doctor(request):
+    return render(request, 'main/personal_doctor.html')
+
+def gruming(request):
+    return render(request, 'main/gruming.html')

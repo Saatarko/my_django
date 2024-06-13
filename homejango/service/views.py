@@ -6,15 +6,12 @@ from django.contrib.auth.decorators import login_required, permission_required, 
 from django.http import JsonResponse, HttpResponseForbidden
 from django.shortcuts import render, redirect
 
-import service
-from users.forms import ProfileUserForm, PetsFormSet
 from .models import Clients, Vacations, Doctor, Procedure, Pets, Order
 from .forms import PetForms, ClientsForms, OrderForms
 from django.views.generic import DetailView, ListView  #DetailView - одна запиь, ListView - все записи
 from datetime import datetime, timedelta
-import logging
-
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+import telegram
+from django.conf import settings
 
 
 # Create your views here.
@@ -29,7 +26,9 @@ def check_specific_user(view_func):
         if not (request.user.username == "Modetaror" or request.user.username == "Saatarko"):
             return HttpResponseForbidden("Доступ запрещен")
         return view_func(request, *args, **kwargs)
+
     return _wrapped_view
+
 
 class ProcedureDetailView(ListView):
     model = Procedure
@@ -71,11 +70,12 @@ def procedure_named(request, name):
     client = Clients.objects.get(first_name=current_user.first_name, last_name=current_user.last_name)
     client_id = client.id
     pets_formset = Pets.objects.filter(clients=client_id)
-    context= {
+    context = {
         'result': result,
         'pets_formset': pets_formset,
     }
     return render(request, 'service/procedure_name.html', context)
+
 
 # class ProcedureNameDetailView(DetailView):
 #     model = Procedure
@@ -237,3 +237,11 @@ def order_confirm(request, procedure_id, client_id, date_temp, time_temp):
             'random_doctor_id': random_doctor_id,
         }
     return render(request, 'service/order_confirm.html', date)
+
+
+def send_telegram_message(order):
+    bot = telegram.Bot(token=settings.TELEGRAM_BOT_TOKEN)
+    chat_id = settings.TELEGRAM_CHANNEL_ID
+    message = f"Новый заказ:\nДата: {order.date_order}\nВремя: {order.time_order}\nПроцедура: {order.procedure.name_procedure}\nКлиент: {order.clients.name}\nДоктор: {order.doctor.name}"
+    bot.send_message(chat_id=chat_id, text=message)
+
