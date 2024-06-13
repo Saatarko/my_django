@@ -4,15 +4,35 @@
 {% block content %}
 <h1 class="main_h">Регистрация</h1>
 
-<div class="content_review">
+
 <div class="form-error">{{ from.non_field_errors }}</div>
 <form method="post">
 {% csrf_token %}
-{{ form.as_p}}
+<div class="content_review_reg">
+<div class="content_review_reg_child">
+    <p class="text_bold">{{ form.username.label_tag}}</p>
+    <p class="text_bold">{{ form.email.label_tag}}</p>
+    <p class="text_bold">{{ form.password1.label_tag}}</p>
+    <p class="text_bold">{{ form.password2.label_tag}}</p>
+    <p class="text_bold">{{ form.first_name.label_tag}}</p>
+    <p class="text_bold">{{ form.last_name.label_tag}}</p>
+    <p class="text_bold">{{ form.phone.label_tag}}</p>
+</div>
+<div class="content_review_reg_child">
+<p>{{ form.username}}</p>
+<p>{{ form.email}}</p>
+<p>{{ form.password1}}</p>
+<p>{{ form.password2}}</p>
+<p>{{ form.first_name}}</p>
+<p>{{ form.last_name}}</p>
+<p>{{ form.phone}}</p>
 
-<p><button class="btn btn-outline-dark" type="submit">Регистрация</button></p>
+</div>
+ <p><button class="btn btn-outline-dark height_auto" type="submit">Регистрация</button></p>
 
+
+</div>
 
 </form>
-</div>
+
 {% endblock %}

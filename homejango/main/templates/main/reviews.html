@@ -13,10 +13,12 @@
                         <p class="text_bold"> Отзыв:</p>
                         <p class="text_bold"> {{el.name}}</p> <br>
                         {{el.description}}
+                        <hr>
                          {% if user.username == "Modetaror" or user.username == "Saatarko"%}
                         <a href="{% url 'reviews_delete' el.id %}"> <button class="btn btn-outline-dark">Удалить отзыв</button></a>
                          {% endif %}
                     </div>
+
         {% endfor %}
 
 

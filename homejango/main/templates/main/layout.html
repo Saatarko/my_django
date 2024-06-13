@@ -8,7 +8,13 @@
     <link rel="stylesheet" href="{% static 'main/css/main.css' %}">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
     <title> {% block title %} {% endblock %}</title>
-
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li {% if message.tags %} class="alert alert-info margine_left" role="alert"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
 </head>
 <body>
 
@@ -39,7 +45,7 @@
                 <li><a href="{% url 'users:logout' %}"><i class="fa-regular fa-address-card"></i>Выход</a></li>
                 {% else %}
                 <li><a href="{% url 'users:login' %}"><i class="fa-regular fa-address-card"></i> Вход</a> |<a
-                        href="{% url 'users:register' %}"><i class="fa-regular fa-address-card"></i>Регистрация</a>
+                        href="{% url 'users:register' %}"><i class="fa-regular fa-address-card"></i>Регистр.</a>
                 </li>
 
                 {% endif %}

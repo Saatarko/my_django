@@ -45,6 +45,7 @@ class PetForms(ModelForm):
             'birthdate': DateInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'Укажите дату рождения питомца',
+                'type': 'date',
             }),
             'breed': TextInput(attrs={
                 'class': 'form-control',

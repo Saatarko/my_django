@@ -3,14 +3,22 @@
 
 {% block content %}
 <h1 class="main_h">Авторизация</h1>
-<div class="content_review">
+<div class="content_review_reg">
 <div class="form-error">{{ from.non_field_errors }}</div>
 <form method="post">
 {% csrf_token %}
-{{ form.as_p}}
-
-<p><button class="btn btn-outline-dark" type="submit">Войти</button></p>
+<div class="block_prof_child2">
+    <p class="text_bold">{{ form.username.label_tag}}</p>
+    <p class="text_bold">{{ form.password.label_tag}}</p>
+</div>
+<div class="block_prof_child2">
+<p>{{ form.username}}</p>
+<p>{{ form.password}}</p>
 </div>
 
+<p><button class="btn btn-outline-dark" type="submit">Войти</button></p>
+
+
 </form>
+</div>
 {% endblock %}

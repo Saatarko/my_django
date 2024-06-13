@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-<h1 class="main_h">Добавление питомца</h1>
+<h1 class="main_h">Изменение данных питомца</h1>
 <div class="content_review">
     <div class="form-error">{{ pets.non_field_errors }}</div>
     <form method="post">
@@ -16,7 +16,7 @@
         <br>
         <div class="block_prof_child2">
             <p>{{ pets.nickname }}</p>
-            <input type="date" id="birthdate" name="birthdate" value="{{ value_date }}">
+            <input type="date" id="birthdate" name="birthdate" value="{{ value }}">
             <p>{{ pets.breed }}</p>
             <p>{{ pets.color }}</p>
         </div>

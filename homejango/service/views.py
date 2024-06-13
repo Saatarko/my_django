@@ -1,6 +1,7 @@
 import random
 from functools import wraps
 
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
 from django.http import JsonResponse, HttpResponseForbidden
 from django.shortcuts import render, redirect
@@ -221,7 +222,7 @@ def order_confirm(request, procedure_id, client_id, date_temp, time_temp):
                       procedure=procedure_instance, clients=pet_instance,
                       doctor=doctor_instance)
         order.save()
-
+        messages.success(request, "Вы успешно записались на прием")
         return redirect('home')
     else:
 

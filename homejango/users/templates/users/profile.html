@@ -23,17 +23,20 @@
             <p class="text_bold">{{ form.phone.label_tag}}</p>
              </div>
             <br>
-            <div class="block_prof_child2">
+            <div class="block_prof_child4">
         <p>{{ form.username}}</p>
         <p>{{ form.email}}</p>
            <p> {{ form.first_name}}</p>
             <p>{{ form.last_name}}</p>
            <p> {{ form.phone}} </p>
-                    <p><button class="btn btn-outline-dark" type="submit">Сохранить</button></p>
+                </div>
+                <div class="block_prof_child4">
+                    <p><button class="btn btn-outline-dark" type="submit">Обновить данные</button></p>
                              <a href="{% url 'users:profile_add_pet' %}">
-                                <button type="button" class="btn btn-outline-dark blink-text">Добавить питомца</button>
+                                <button type="button" class="btn btn-outline-dark">Добавить питомца</button>
                               </a>
-                 </div>
+                    </div>
+
         </div>
         <p class="block_prof_child text_bold text_big_size">Ваши питомцы</p>
         <div class="block_prof_child">
@@ -47,22 +50,22 @@
                 </div>
              <div class="block_prof_child3">
                     {% for el in pets %}
-                    <p>{{ el.nickname }}</p>
-                   <p> {{ el.birthdate }}</p>
-                   <p> {{ el.breed }}</p>
-                   <p> {{ el.color }}</p>
+                    <p class="borders">{{ el.nickname }}</p>
+                   <p class="borders"> {{ el.birthdate }}</p>
+                   <p class="borders"> {{ el.breed }}</p>
+                   <p class="borders"> {{ el.color }}</p>
                              <a href="{% url 'users:profile_delete' el.id %}">
-                                <button type="button" class="btn btn-outline-dark blink-text">Удалить</button>
+                                <button type="button" class="btn btn-outline-dark btn_pofile">Удалить</button>
                               </a>
                             <a href="{% url 'users:profile_edit_pet' el.id %}">
-                                <button type="button" class="btn btn-outline-dark blink-text">Отредактировать</button>
+                                <button type="button" class="btn btn-outline-dark">Отредактировать</button>
                               </a>
                          <br>
 
                     {% endfor %}
                  </div>
                     {% else %}
-                 <p>Вы пока не добавили ни одного питомца</p>
+                 <p class="block_prof_child5">Вы не добавили ни одного питомца</p>
                      {% endif %}
 
                 </div>
