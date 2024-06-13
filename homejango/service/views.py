@@ -10,7 +10,6 @@ from .models import Clients, Vacations, Doctor, Procedure, Pets, Order
 from .forms import PetForms, ClientsForms, OrderForms
 from django.views.generic import DetailView, ListView  #DetailView - одна запиь, ListView - все записи
 from datetime import datetime, timedelta
-import telegram
 from django.conf import settings
 
 
