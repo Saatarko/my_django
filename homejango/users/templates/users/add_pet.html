@@ -8,17 +8,17 @@
     <form method="post">
     {% csrf_token %}
         <div class="block_prof_child2">
-        <p class="text_bold">{{ pets.nickname.label_tag}}</p>
-        <p class="text_bold">{{ pets.birthdate.label_tag}}</p>
-           <p class="text_bold"> {{ pets.breed.label_tag}}</p>
-            <p class="text_bold">{{ pets.color.label_tag}}</p>
+        <p class="text_bold">{{ form.nickname.label_tag}}</p>
+        <p class="text_bold">{{ form.birthdate.label_tag}}</p>
+           <p class="text_bold"> {{ form.breed.label_tag}}</p>
+            <p class="text_bold">{{ form.color.label_tag}}</p>
                </div>
             <br>
             <div class="block_prof_child2">
-        <p>{{ pets.nickname}}</p>
-         <p><input type="date" id="birthdate" name="birthdate" value="{{ pets.birthdate|date:'Y-m-d' }}"></p>
-           <p> {{ pets.breed}}</p>
-            <p>{{ pets.color}}</p>
+        <p>{{ form.nickname}}</p>
+         <p><input type="date" id="birthdate" name="birthdate" value="{{ form.birthdate|date:'Y-m-d' }}"></p>
+           <p> {{ form.breed}}</p>
+            <p>{{ form.color}}</p>
 
         </div>
     <p><button class="btn btn-outline-dark" type="submit">Добавить питомца</button></p>

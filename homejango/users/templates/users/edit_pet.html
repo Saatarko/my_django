@@ -4,21 +4,21 @@
 {% block content %}
 <h1 class="main_h">Изменение данных питомца</h1>
 <div class="content_review">
-    <div class="form-error">{{ pets.non_field_errors }}</div>
+    <div class="form-error">{{ form.non_field_errors }}</div>
     <form method="post">
         {% csrf_token %}
         <div class="block_prof_child2">
-            <p class="text_bold">{{ pets.nickname.label_tag }}</p>
-            <p class="text_bold">{{ pets.birthdate.label_tag }}</p>
-            <p class="text_bold">{{ pets.breed.label_tag }}</p>
-            <p class="text_bold">{{ pets.color.label_tag }}</p>
+            <p class="text_bold">{{ form.nickname.label_tag }}</p>
+            <p class="text_bold">{{ form.birthdate.label_tag }}</p>
+            <p class="text_bold">{{ form.breed.label_tag }}</p>
+            <p class="text_bold">{{ form.color.label_tag }}</p>
         </div>
         <br>
         <div class="block_prof_child2">
-            <p>{{ pets.nickname }}</p>
-            <input type="date" id="birthdate" name="birthdate" value="{{ value }}">
-            <p>{{ pets.breed }}</p>
-            <p>{{ pets.color }}</p>
+            <p>{{ form.nickname }}</p>
+           <p><input type="date" name="birthdate" value="{{ form.instance.birthdate|date:'Y-m-d' }}"></p>
+            <p>{{ form.breed }}</p>
+            <p>{{ form.color }}</p>
         </div>
         <p><button class="btn btn-outline-dark" type="submit">Сохранить изменения</button></p>
     </form>

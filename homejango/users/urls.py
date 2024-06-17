@@ -11,8 +11,11 @@ urlpatterns = [
    path('logout/', LogoutView.as_view(), name='logout'),
    path('register/', views.register, name='register'),
    path('profile/', views.profile_update, name='profile'),
-   path('profile/delete/<int:temp_id>/', views.profile_delete, name='profile_delete'),
-   path('profile/add_pet/', views.profile_add_pet, name='profile_add_pet'),
-   path('profile/edit_pet/<int:temp_id>/', views.profile_edit_pet, name='profile_edit_pet'),
-   path('register/done/', views.register_done, name='register_done'),
+   path('profile/delete/<int:pk>/', views.PetsDelete.as_view(), name='profile_delete'),
+   # path('profile/add_pet/', views.profile_add_pet, name='profile_add_pet'),
+
+# большая разница между <int:temp_id>  и <int:pk>. В первом случае просто указываем что это число
+   # подходит для функций. Если используем класс надо четко указать id(<int:pk>) или slug
+   path('profile/add_pet/', views.AddPets.as_view(), name='profile_add_pet'),
+   path('profile/edit_pet/<int:pk>/', views.UpdatePets.as_view(), name='profile_edit_pet'),
 ]
