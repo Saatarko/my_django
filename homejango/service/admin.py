@@ -10,8 +10,8 @@ admin.site.register(Procedure)
 # admin.site.register(Pets)
 # admin.site.register(Order)
 #
-# # Register your models here.
-# #
+
+#
 @admin.register(Clients)
 class ClientAdmin(admin.ModelAdmin):
     list_display = ('id', 'first_name', 'last_name', 'phone')

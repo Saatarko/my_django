@@ -49,87 +49,103 @@ class LoginUser(LoginView):  # логин через класс - проверк
     #     return reverse_lazy('home')
 
 
-# class RegisterUser(CreateView):
-#     form_class = RegisterUserForm
-#     template_name = 'users/register.html'
-#     extra_context = {'title': 'Регистрация'}
+class RegisterUser(CreateView):
+    form_class = RegisterUserForm
+    template_name = 'users/register.html'
+    extra_context = {'title': 'Регистрация'}
+    success_url = reverse_lazy('home')
 
-def register(request):
-    if request.method == "POST":
-        form = RegisterUserForm(request.POST)
-        if form.is_valid():
-            error = check_client_value_valid(request.POST['first_name'], request.POST['last_name'],
-                                             request.POST['phone'])
-            if error == '':
-                user = form.save(commit=False)
-                user.set_password(form.cleaned_data['password1'])
-                user.save()
+    def form_valid(self, form):
+        user = form.save()  # Сохраняем пользователя и получаем экземпляр User
 
-                Clients.objects.create(
-                    user=user,
-                    first_name=form.cleaned_data['first_name'],
-                    last_name=form.cleaned_data['last_name'],
-                    phone=form.cleaned_data['phone']
-                )
-                messages.success(request, "Регистрация успешно завершена")
-                return redirect('home')
-            else:
-                messages.error(request, f'{error}')
-                return render(request, 'users/register.html', {'form': form})
-    else:
-        form = RegisterUserForm()
-    return render(request, 'users/register.html', {'form': form})
+        Clients.objects.create(
+            user=user,
+            first_name=form.cleaned_data['first_name'],
+            last_name=form.cleaned_data['last_name'],
+            phone=form.cleaned_data['phone']
+        )
+        messages.success(self.request, "Регистрация успешно завершена")
+        return super().form_valid(form)
 
-
-# class ProfileUser(LoginRequiredMixin, UpdateView):
-#     model = get_user_model()
-#     form_class = ProfileUserForm
-#     template_name = 'users/profile.html'
-#     extra_context = {'title': 'Профайл'}
+# def register(request):
+#     if request.method == "POST":
+#         form = RegisterUserForm(request.POST)
+#         if form.is_valid():
 #
-#     def get_success_url(self):
-#         return reverse_lazy('users:profile')
+#             user = form.save(commit=False)
+#             user.set_password(form.cleaned_data['password1'])
+#             user.save()
 #
-#     def get_object(self, queryset=None):
-#         return self.request.user
+#             Clients.objects.create(
+#                 user=user,
+#                 first_name=form.cleaned_data['first_name'],
+#                 last_name=form.cleaned_data['last_name'],
+#                 phone=form.cleaned_data['phone']
+#             )
+#             messages.success(request, "Регистрация успешно завершена")
+#             return redirect('home')
 #
+#     else:
+#         form = RegisterUserForm()
+#     return render(request, 'users/register.html', {'form': form})
 
-def profile_update(request):
-    user = request.user
-    client, created = Clients.objects.get_or_create(user=user)
-    client_id = client.id
-    form = ProfileUserForm(request.POST or None, instance=user)
-    pets = Pets.objects.filter(clients=client_id)
 
-    if request.method == 'POST':
-        if form.is_valid():
-            # Обновление данных клиента
-            error = check_client_value_valid(request.POST['first_name'], request.POST['last_name'],
-                                             request.POST['phone'])
-            if error == '':
-                client.first_name = form.cleaned_data['first_name']
-                client.last_name = form.cleaned_data['last_name']
-                client.phone = form.cleaned_data['phone']
-                client.save()
+class ProfileUser(LoginRequiredMixin, UpdateView):
+    model = get_user_model()
+    form_class = ProfileUserForm
+    template_name = 'users/profile.html'
+    extra_context = {'title': 'Профайл'}
+    success_url = reverse_lazy('users:profile')
 
-                user.first_name = form.cleaned_data['first_name']
-                user.last_name = form.cleaned_data['last_name']
-                user.phone = form.cleaned_data['phone']
-                user.save()
-                messages.success(request, "Ваши данные успешно обновлены")
-            else:
-                messages.error(request, f'{error}')
-                return render(request, 'users/profile.html', {
-                    'form': form,
-                    'pets': pets,
-                    'title': 'Профайл'
-                })
+    def get_object(self, queryset=None):
+        return self.request.user
 
-    return render(request, 'users/profile.html', {
-        'form': form,
-        'pets': pets,
-        'title': 'Профайл'
-    })
+    def form_valid(self, form):
+        user = form.save()  # Сохраняем пользователя и получаем экземпляр User
+
+        # Обновляем данные клиента
+        Clients.objects.filter(user=user).update(
+            first_name=form.cleaned_data['first_name'],
+            last_name=form.cleaned_data['last_name'],
+            phone=form.cleaned_data['phone']
+        )
+        messages.success(self.request, "Ваши данные успешно обновлены")
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        client, created = Clients.objects.get_or_create(user=self.request.user)
+        context['pets'] = Pets.objects.filter(clients=client)
+        return context
+#
+#
+# def profile_update(request):
+#     user = request.user
+#     client, created = Clients.objects.get_or_create(user=user)
+#     client_id = client.id
+#     form = ProfileUserForm(request.POST or None, instance=user)
+#     pets = Pets.objects.filter(clients=client_id)
+#
+#     if request.method == 'POST':
+#         if form.is_valid():
+#
+#             client.first_name = form.cleaned_data['first_name']
+#             client.last_name = form.cleaned_data['last_name']
+#             client.phone = form.cleaned_data['phone']
+#             client.save()
+#
+#             user.first_name = form.cleaned_data['first_name']
+#             user.last_name = form.cleaned_data['last_name']
+#             user.phone = form.cleaned_data['phone']
+#             user.save()
+#             messages.success(request, "Ваши данные успешно обновлены")
+#
+#
+#     return render(request, 'users/profile.html', {
+#         'form': form,
+#         'pets': pets,
+#         'title': 'Профайл'
+#     })
 
 
 # У класса есть минус оносительноф ункции нужна страница для запроса на подтверждене удаления

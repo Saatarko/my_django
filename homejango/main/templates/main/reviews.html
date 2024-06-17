@@ -31,7 +31,7 @@
         {% if user.is_authenticated %}
             <div class="content_review_child2">
                 <p class="text_bold">Оставить свой отзыв:</p>
-        <form method="post">
+        <form method="post" action="{% url 'review-add' %}">
             {% csrf_token %}
                        <div class="form-group">
                     {{ form.name.label_tag }}

@@ -36,7 +36,7 @@
                         <li><a href="{% url 'gruming' %}">Груминг</a></li>
                     </ul>
                 </li>
-                <li><a href="{% url 'reviews' %}"><i class="fa-regular fa-address-card"></i> Отзывы</a></li>
+                <li><a href="{% url 'reviews-list' %}"><i class="fa-regular fa-address-card"></i> Отзывы</a></li>
                 <li><a href="{% url 'contacts' %}"><i class="fa-regular fa-address-card"></i> Контакты</a></li>
                  {% if user.username == "Modetaror" or user.username == "Saatarko"%}
                  <li><a href="{% url 'schedule' %}"><i class="fa-regular fa-address-card"></i>Расписание</a></li>

@@ -9,8 +9,9 @@ urlpatterns = [
    # функции get-succes_url или в settings  LOGOUT/LOGIN_REDIRECT_URL
    path('login/', views.LoginUser.as_view(), name='login'),     # для
    path('logout/', LogoutView.as_view(), name='logout'),
-   path('register/', views.register, name='register'),
-   path('profile/', views.profile_update, name='profile'),
+   path('register/', views.RegisterUser.as_view(), name='register'),
+   path('profile/', views.ProfileUser.as_view(), name='profile'),
+   # path('profile/', views.profile_update, name='profile'),
    path('profile/delete/<int:pk>/', views.PetsDelete.as_view(), name='profile_delete'),
    # path('profile/add_pet/', views.profile_add_pet, name='profile_add_pet'),
 
