@@ -6,15 +6,15 @@
 <div class="content_review">
     <section class="procedure_list">
         {% for el in procedure %}
-            {% if el.name_procedure %}
+            {% if el.eng_name_procedure  %}
                 <div class="procedure_list_item">
                     <div class="procedure_list_item_child">
-                        <a href="{% url 'procedure_named' el.name_procedure %}">
+                        <a href="{% url 'procedure_named' el.eng_name_procedure  %}">
                            <img src="{% static 'service/img/'|add:el.eng_name_procedure|add:'.png' %}" alt="{{ el.name_procedure }}" />
                         </a>
                     </div>
                     <div class="procedure_list_item_child">
-                        <a class="link_procedure" href="{% url 'procedure_named' el.name_procedure %}">{{ el.name_procedure }}</a>
+                        <a class="link_procedure" href="{% url 'procedure_named' el.eng_name_procedure  %}">{{ el.name_procedure }}</a>
                     </div>
                 </div>
             {% endif %}

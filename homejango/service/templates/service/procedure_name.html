@@ -2,28 +2,26 @@
 {% load static %}
 
 {% block content %}
-
     <h1 class="main_h">{{ result.name_procedure }}</h1>
-<div class="content_review">
-
-    <section class="procedure_list">
-        <p class="main_text">{{ result.description }}</p>
-        <p class="text_bold">Ориентировочная сумма приема составит: {{result.price}},00 белорусских рублей.</p>
-    </section>
-    {% if user.is_authenticated %}
+    <div class="content_review">
+        <section class="procedure_list">
+            <p class="main_text">{{ result.description }}</p>
+            <p class="text_bold">Ориентировочная сумма приема составит: {{ result.price }},00 белорусских рублей.</p>
+        </section>
+        {% if user.is_authenticated %}
             {% if pets_formset %}
-                <a href="{% url 'order' result.name_procedure 'base'%}">
-                <button type="button" class="btn btn-outline-dark blink-text">Записаться на прием</button>
+                <a href="{% url 'order' result.eng_name_procedure 'base' %}">
+                    <button type="button" class="btn btn-outline-dark blink-text">Записаться на прием</button>
                 </a>
             {% else %}
                 <a href="{% url 'users:profile' %}">
-                <button type="button" class="btn btn-outline-dark blink-text">Чтобы записаться - нужно добавить питомца в свой профиль. А Вы пока не добавили ни одного питомца в свой профиль. Перейти</button>
+                    <button type="button" class="btn btn-outline-dark blink-text">Чтобы записаться - нужно добавить питомца в свой профиль. А Вы пока не добавили ни одного питомца в свой профиль. Перейти</button>
                 </a>
             {% endif %}
-    {% else %}
+        {% else %}
             <a href="{% url 'users:register' %}">
                 <button type="button" class="btn btn-outline-dark blink-text">Чтобы записаться - нужно зарегистрироваться и добавить питомца в профиль. Перейти</button>
-                </a>
-    {% endif %}
-</div>
+            </a>
+        {% endif %}
+    </div>
 {% endblock %}

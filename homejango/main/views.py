@@ -1,8 +1,9 @@
 from django.contrib.auth.models import Permission
 from django.contrib.contenttypes.models import ContentType
-from django.shortcuts import render
+from django.core.checks import messages
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView
+from django.views.generic import ListView, CreateView, DeleteView
 
 from .forms import ReviewsForms
 from .models import Reviews
@@ -67,20 +68,32 @@ class ReviewCreateView(CreateView):
 #     }
 #     return render(request, 'main/reviews.html', context)
 
+class ReviewDelete(DeleteView):
+    model = Reviews
+    success_url = reverse_lazy('reviews-list')
 
-def reviews_delete(request, id):
-    reviews_to_delete = Reviews.objects.filter(id=id)
-    reviews_to_delete.delete()
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, "Отзыв успешно удален")
+        return super().delete(request, *args, **kwargs)
 
-    form = ReviewsForms()
-    reviews = Reviews.objects.all()
-    context = {
-        'reviews': reviews,
-        'form': form
+    def get(self, request, *args, **kwargs):   # переорпеделение мтеода удаления (без вызова подтверждения)
+        self.object = self.get_object()
+        self.object.delete()
+        return redirect(self.get_success_url())
 
-    }
-    return render(request, 'main/reviews.html', context)
-
+# def reviews_delete(request, id):
+#     reviews_to_delete = Reviews.objects.filter(id=id)
+#     reviews_to_delete.delete()
+#
+#     form = ReviewsForms()
+#     reviews = Reviews.objects.all()
+#     context = {
+#         'reviews': reviews,
+#         'form': form
+#
+#     }
+#     return render(request, 'main/reviews.html', context)
+#
 
 def personal_doctor(request):
     return render(request, 'main/personal_doctor.html')

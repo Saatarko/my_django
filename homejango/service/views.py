@@ -33,6 +33,7 @@ class ProcedureDetailView(ListView):
     model = Procedure
     template_name = 'service/procedure.html'
     context_object_name = 'procedure'
+    slug_field = 'eng_name_procedure'
 
 
 # @login_required  # можно в скобках указать url для перехода и он будет иметь больший приоритет
@@ -63,31 +64,37 @@ def schedule(request):
     return render(request, 'service/schedule.html', context)
 
 
-def procedure_named(request, name):
-    result = Procedure.objects.get(name_procedure=name)
-    current_user = request.user
-    client = Clients.objects.get(first_name=current_user.first_name, last_name=current_user.last_name)
-    client_id = client.id
-    pets_formset = Pets.objects.filter(clients=client_id)
-    context = {
-        'result': result,
-        'pets_formset': pets_formset,
-    }
-    return render(request, 'service/procedure_name.html', context)
+# def procedure_named(request, name):
+#     result = Procedure.objects.get(name_procedure=name)
+#     current_user = request.user
+#     client = Clients.objects.get(first_name=current_user.first_name, last_name=current_user.last_name)
+#     client_id = client.id
+#     pets_formset = Pets.objects.filter(clients=client_id)
+#     context = {
+#         'result': result,
+#         'pets_formset': pets_formset,
+#     }
+#     return render(request, 'service/procedure_name.html', context)
 
 
-# class ProcedureNameDetailView(DetailView):
-#     model = Procedure
-#     template_name = 'service/procedure_name.html'
-#     context_object_name = 'result'
-#     slug_field = 'name_procedure'  # Указываем поле, которое будет использоваться как слаг
-#     slug_url_kwarg = 'name'  # Указываем имя аргумента из URL
-#
-#     def get_queryset(self):
-#         # Фильтрация по условию name_procedure=name
-#         name = self.kwargs.get('name')
-#         return Procedure.objects.filter(name_procedure=name)
+class ProcedureNameDetailView(DetailView):
+    model = Procedure
+    template_name = 'service/procedure_name.html'
+    context_object_name = 'result'
+    slug_field = 'eng_name_procedure'  # Указываем поле, которое будет использоваться как слаг
+    slug_url_kwarg = 'slug'  # Указываем имя аргумента из URL
 
+    def get_queryset(self):
+        # Фильтрация по слагу
+        slug = self.kwargs.get('slug')
+        return Procedure.objects.filter(eng_name_procedure=slug)
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        client, created = Clients.objects.get_or_create(user=self.request.user)
+        context['pets_formset'] = Pets.objects.filter(clients=client)
+        return context
 
 def order(request, name, additional_param):
     error = ''
@@ -134,15 +141,6 @@ def order(request, name, additional_param):
 
                 client = Clients.objects.get(first_name=current_user.first_name, last_name=current_user.last_name)
                 client_id = client.id
-                # pets_formset = PetsFormSet(request.POST or None, instance=client)
-                # pets_formset = Pets.objects.filter(clients=client_id)
-                #
-                # doctor = Doctor.objects.filter(profession=result.name_procedure)
-                # random_doctor = random.choice(doctor)
-                # # Получаем id выбранного доктора
-                # random_doctor_id = random_doctor.id
-                # procedure = Procedure.objects.get(id=procedure_id)
-
                 date = {
                     'date_temp': date_temp,
                     'time_temp': time_temp,

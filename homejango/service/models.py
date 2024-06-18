@@ -1,5 +1,7 @@
 from django.conf import settings
 from django.db import models
+from django.urls import reverse
+from django.utils.text import slugify
 
 
 # Create your models here.
@@ -45,6 +47,9 @@ class Procedure(models.Model):
     class Meta:
         verbose_name = 'Процедуры/Procedure'
         verbose_name_plural = 'Процедуры/Procedure'
+
+    def get_absolute_url(self):
+        return reverse('procedure_named', kwargs={'slug': slugify(self.name_procedure)})
 
 
 class Doctor(models.Model):
